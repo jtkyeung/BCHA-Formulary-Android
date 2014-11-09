@@ -1,13 +1,17 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 public class MainActivity extends Activity {
 
+	public final static String EXTRA_INFO = "com.lowermainlandpharmacyservices.MainActivity.SEARCHINPUT";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,12 +41,12 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-    /*public void displayResult(View view) throws Exception {
-        Intent searchResult = new Intent(this, DisplaySearchResult.class);
+    public void displayResult(View view) throws Exception {
+        Intent searchResult = new Intent(this, DisplayFormularyResult.class);
         EditText editText = (EditText) findViewById(R.id.search_input);
         String searchInput = editText.getText().toString();
 //Kelvin's recommendation---------------------------------------
-        CSVParser parser = new CSVParser();
+        /*CSVParser parser = new CSVParser();
         DrugList supplyList = parser.getSupplyList();
         NameList nameList = parser.getNameList();
         if (supplyList.containsGenericName(searchInput)) {
@@ -53,9 +57,11 @@ public class MainActivity extends Activity {
                     supplyList.getDrug(nameList.getGenericName(searchInput)));
             startActivity(searchResult);
         } else {
-            Toast.makeText(this, searchInput + " is non-Forumulary or typo has been made",
+            Toast.makeText(this, searchInput + " is non-Formulary or typo has been made",
                             Toast.LENGTH_LONG).show();
-        }
+        }*/
+        searchResult.putExtra(EXTRA_INFO, searchInput);
+        startActivity(searchResult);
 
 
 //    public Drug searchDrug(String input) throws Exception {
@@ -73,5 +79,5 @@ public class MainActivity extends Activity {
 //        }
 //
 //    }
-    } */
+    }
 }
