@@ -1,7 +1,10 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,11 +14,13 @@ import android.widget.EditText;
 public class MainActivity extends Activity {
 
 	public final static String EXTRA_INFO = "com.lowermainlandpharmacyservices.MainActivity.SEARCHINPUT";
-	
+	public AssetManager assetManager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		assetManager = getAssets();
 	}
 	
 	
@@ -46,38 +51,34 @@ public class MainActivity extends Activity {
         EditText editText = (EditText) findViewById(R.id.search_input);
         String searchInput = editText.getText().toString();
 //Kelvin's recommendation---------------------------------------
-        /*CSVParser parser = new CSVParser();
-        DrugList supplyList = parser.getSupplyList();
-        NameList nameList = parser.getNameList();
-        if (supplyList.containsGenericName(searchInput)) {
-            searchResult.putExtra(EXTRA_INFO, supplyList.getDrug(searchInput));
-            startActivity(searchResult);
-        } else if (nameList.containsBrandName(searchInput)) {
-            searchResult.putExtra(EXTRA_INFO,
-                    supplyList.getDrug(nameList.getGenericName(searchInput)));
-            startActivity(searchResult);
-        } else {
-            Toast.makeText(this, searchInput + " is non-Formulary or typo has been made",
-                            Toast.LENGTH_LONG).show();
-        }*/
-        searchResult.putExtra(EXTRA_INFO, searchInput);
-        startActivity(searchResult);
+        CSVparser formularyParser = new CSVparser(assetManager.open("formulary.csv"));
+        CSVparser excludedParser = new CSVparser(assetManager.open("excluded.csv"));
+        CSVparser restrictedParser = new CSVparser(assetManager.open("restricted.csv"));
+        formularyParser.parseFormulary();
+        excludedParser.parseExcluded();
+        restrictedParser.parseRestricted();
+
+        
+
+//      DrugList drugList = parser.parserData(); //TODO
+      searchResult.putExtra(EXTRA_INFO, searchInput);
+      startActivity(searchResult);
 
 
-//    public Drug searchDrug(String input) throws Exception {
-//        CSVParser parser = new CSVParser();
-//        DrugList supplyList = parser.getSupplyList();
-//        NameList nameList = parser.getNameList();
-//        if (parser.inSystem(input)) {
-//            if (supplyList.containsGenericName(input)) {
-//                return supplyList.getDrug(input);
-//            } else if (nameList.containsBrandName(input)) {
-//                return supplyList.getDrug(nameList.getGenericName(input));
-//            }
-//        } else {
-//            return null;
-//        }
+//  public Drug searchDrug(String input) throws Exception {
+//      CSVParser parser = new CSVParser();
+//      DrugList supplyList = parser.getSupplyList();
+//      NameList nameList = parser.getNameList();
+//      if (parser.inSystem(input)) {
+//          if (supplyList.containsGenericName(input)) {
+//              return supplyList.getDrug(input);
+//          } else if (nameList.containsBrandName(input)) {
+//              return supplyList.getDrug(nameList.getGenericName(input));
+//          }
+//      } else {
+//          return null;
+//      }
 //
-//    }
+//  }
     }
 }

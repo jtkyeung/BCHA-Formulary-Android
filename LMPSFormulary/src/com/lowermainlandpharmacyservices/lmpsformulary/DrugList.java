@@ -9,7 +9,7 @@ public class DrugList {
 	public DrugList(){
         drugList = new HashMap<String, Drug>();
 	}
-
+	public int getDrugListSize(){return drugList.size();}
 
 	public void addDrug(Drug newDrug){
 
