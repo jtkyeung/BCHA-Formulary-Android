@@ -8,7 +8,7 @@ public class NameList {
     public NameList() {
         nameList = new HashMap<String, String>();
     }
-
+    public int getNameListSize(){return nameList.size();}
     public boolean containsBrandName(String brandName) {
         return nameList.containsValue(brandName);
     }
