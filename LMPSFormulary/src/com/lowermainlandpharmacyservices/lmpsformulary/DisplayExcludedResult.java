@@ -14,6 +14,7 @@ public class DisplayExcludedResult extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_excluded_result);
+		getActionBar().hide();
 		
 		Intent intent = getIntent();
 		

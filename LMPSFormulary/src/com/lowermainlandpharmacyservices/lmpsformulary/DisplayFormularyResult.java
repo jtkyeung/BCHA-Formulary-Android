@@ -16,6 +16,7 @@ public class DisplayFormularyResult extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_formulary_result);
+		getActionBar().hide();
 		Intent intent = getIntent();
 		
 		//Generic Name
