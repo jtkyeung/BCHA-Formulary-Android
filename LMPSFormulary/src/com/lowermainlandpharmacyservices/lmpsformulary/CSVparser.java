@@ -35,7 +35,7 @@ public class CSVparser {
 						supplyList.addDrug(new FormularyDrug(nextLine[0], "N/A", nextLine[1]));
 					else{
 						supplyList.addDrug(new FormularyDrug(nextLine[0], nextLine[2], nextLine[1]));
-						addBrandName(nextLine[2]);
+						addBrandName(nextLine[0], nextLine[2]);
 					}
 
 				}
@@ -66,7 +66,7 @@ public class CSVparser {
 						supplyList.addDrug(new ExcludedDrug(nextLine[0], "N/A"));
 					else{
 						supplyList.addDrug(new ExcludedDrug(nextLine[0], nextLine[1]));
-						addBrandName(nextLine[1]);
+						addBrandName(nextLine[0], nextLine[1]);
 					}
 				}
 			}
@@ -95,7 +95,7 @@ public class CSVparser {
 						supplyList.addDrug(new RestrictedDrug(nextLine[0], "N/A", nextLine[2]));
 					else{
 						supplyList.addDrug(new RestrictedDrug(nextLine[0], nextLine[1], nextLine[2]));
-						addBrandName(nextLine[1]);
+						addBrandName(nextLine [0], nextLine[1]);
 					}
 
 				}
@@ -112,9 +112,17 @@ public class CSVparser {
 		}
 	}
 
-	private void addBrandName(String string) {
-		// TODO Auto-generated method stub
-
+	private void addBrandName(String genericName, String brandName) {
+		String[] brandNameList;
+		if(brandName.contains(",")){
+			brandNameList = brandName.split(",");
+			for(String nameToAdd: brandNameList){
+				nameList.put(nameToAdd.trim(), genericName);
+			}
+		}
+		else{
+			nameList.put(brandName.trim(), genericName);
+		}
 	}
 	public Drug getDrugInSystem(String drug) {
 		if (supplyList.containsGenericName(drug)){
