@@ -1,10 +1,9 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FormularyDrug extends Drug {
-	  public List<String> strengths;
+	  public ArrayList<String> strengths;
 
 		public FormularyDrug(String genericName, String brandName, String strength){
 	        super(genericName,brandName,"Formulary");
@@ -19,7 +18,7 @@ public class FormularyDrug extends Drug {
 	        strengths.add(strength);
 	    }
 
-	    public List<String> getStrengths(){
+	    public ArrayList<String> getStrengths(){
 	        return strengths;
 	    }
 }
