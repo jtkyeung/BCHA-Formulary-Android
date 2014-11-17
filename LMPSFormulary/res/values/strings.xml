@@ -10,5 +10,7 @@
     <string name="image_description_logo">LMPS logo</string>
     <string name="title_activity_display_formulary_result">DisplayFormularyResult</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_display_restricted_result">DisplayRestrictedResult</string>
+    <string name="title_activity_display_excluded_result">DisplayExcludedResult</string>
 
 </resources>
