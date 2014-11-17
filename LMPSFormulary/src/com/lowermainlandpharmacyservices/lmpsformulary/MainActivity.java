@@ -91,10 +91,13 @@ public class MainActivity extends Activity {
 	
 			} else if (drug.getStatus() == "Excluded") {
 				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
-				excludedResult.putExtra(EXTRA_BRANDNAME, drug.getBrandName());
+				ExcludedDrug edrug = (ExcludedDrug) drug;
+				excludedResult.putExtra(EXTRA_GENERICNAME, edrug.getGenericName());
+				excludedResult.putExtra(EXTRA_BRANDNAME, edrug.getBrandName());
 				startActivity(excludedResult);
 			}
-		}
+		} 
+		
 	}
 
 	//  public Drug searchDrug(String input) throws Exception {
