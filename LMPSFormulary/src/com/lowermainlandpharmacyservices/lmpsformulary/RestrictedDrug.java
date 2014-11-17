@@ -14,6 +14,6 @@ public class RestrictedDrug extends Drug {
 
     public void additionalCriteria(String extraCriteria){
     	System.out.println(super.genericName+ " "+criteria +" "+ extraCriteria);
-        this.criteria.insert(criteria.length()-1, (" "+extraCriteria));
+        this.criteria.insert(criteria.length(), (" "+extraCriteria));
     }
 }
