@@ -1,41 +1,22 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-public class DisplayFormularyResult extends Activity {
+public class DisplayExcludedResult extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_formulary_result);
-		
-		
-		
-		 // Get the message from the intent
-	    Intent intent = getIntent();
-	    ArrayList<String> input = intent.getStringArrayListExtra(MainActivity.EXTRA_STRENGTHS);
-	    String test = "Strengths:";
-	    for(String s: input) {
-	    	 test += "\n" + "\t" + s;
-	    }
-
-	    // Create the text view
-	    TextView textView = (TextView) findViewById(R.id.formulary_result_view);
-	    textView.setText(test);
-	    textView.setTextSize(20);
+		setContentView(R.layout.activity_display_excluded_result);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.display_formulary_result, menu);
+		getMenuInflater().inflate(R.menu.display_excluded_result, menu);
 		return true;
 	}
 
