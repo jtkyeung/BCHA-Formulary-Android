@@ -2,6 +2,7 @@ package com.lowermainlandpharmacyservices.lmpsformulary;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,6 +28,8 @@ public class DisplayExcludedResult extends Activity {
 	    TextView statusTextView = (TextView) findViewById(R.id.excluded);
 	    statusTextView.setText("\t" + "\t" + "EXCLUDED");
 	    statusTextView.setTextSize(20);
+	    statusTextView.setTextColor(Color.parseColor("#CC0000"));
+	    statusTextView.setTypeface(null, Typeface.BOLD);
 		
 	    //Brand Names
 	    String brandNames = "\t" + "\t" + intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);

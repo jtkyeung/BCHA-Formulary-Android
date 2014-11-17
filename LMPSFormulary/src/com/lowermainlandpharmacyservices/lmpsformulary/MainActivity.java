@@ -16,6 +16,8 @@ public class MainActivity extends Activity {
 	public final static String EXTRA_STRENGTHS = "com.lowermainlandpharmacyservices.MainActivity.STRENGTHS";
 	public final static String EXTRA_GENERICNAME = "com.lowermainlandpharmacyservices.MainActivity.GENERICNAME";
 	public final static String EXTRA_BRANDNAME = "com.lowermainlandpharmacyservices.MainActivity.BRANDNAME";
+	public final static String EXTRA_RESTRICTIONS = "com.lowermainlandpharmacyservices.MainActivity.RESTRICTIONS";
+
 
 	public AssetManager assetManager;
 	@Override
@@ -87,7 +89,10 @@ public class MainActivity extends Activity {
 	
 			} else if (drug.getStatus() == "Restricted") {
 				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
-				restrictedResult.putExtra(EXTRA_BRANDNAME, drug.getBrandName());
+				RestrictedDrug rdrug = (RestrictedDrug) drug;
+				restrictedResult.putExtra(EXTRA_GENERICNAME, rdrug.getGenericName());
+				restrictedResult.putExtra(EXTRA_BRANDNAME, rdrug.getBrandName());
+				restrictedResult.putExtra(EXTRA_RESTRICTIONS, rdrug.getCriteria());
 				startActivity(restrictedResult);
 	
 			} else if (drug.getStatus() == "Excluded") {
