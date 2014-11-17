@@ -97,7 +97,9 @@ public class CSVparser {
 						supplyList.addDrug(new RestrictedDrug(nextLine[0], nextLine[1], nextLine[2]));
 						addBrandName(nextLine [0], nextLine[1]);
 					}
-
+				}
+				else if ((nextLine[0]).equals("") && !(nextLine[2].equals(""))){
+					((RestrictedDrug)supplyList.getDrug(nextLine[0])).additionalCriteria(nextLine[2]);
 				}
 			}
 			dataFile.close();
