@@ -12,5 +12,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_display_restricted_result">DisplayRestrictedResult</string>
     <string name="title_activity_display_excluded_result">DisplayExcludedResult</string>
+    <string name="brandname">Brand Names:</string>
+    <string name="strengths">Strengths:</string>
+    <string name="title_activity_display_excluded">DisplayExcludedActivity</string>
+    <string name="status">Status:</string>
+    <string name="excluded">EXCLUDED</string>
+    <string name="excluded_description">Excluded drugs have been assessed by the B.C. Health Authorities Pharmacy and Therapeutics Committee and intentionally excluded from the formulary based on the following reasons: the product has not been shown to be more effective and/or safe than current formulary alternatives, is unavailable or discontinued by the manufacturer, has unfavorable cost-benefit profile, or other specific reason.</string>
+	<string name="excluded_description2">Patients may be instructed to provide their own medication in these cases as these drugs are not stocked in hospital. In exceptional cases, excluded drugs may be supplied by pharmacy if deemed appropriate after assessment by pharmacy manager and/or clinical pharmacist.</string>
 
 </resources>

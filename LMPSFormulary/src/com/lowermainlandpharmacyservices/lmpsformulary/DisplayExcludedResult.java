@@ -1,9 +1,12 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class DisplayExcludedResult extends Activity {
 
@@ -11,6 +14,25 @@ public class DisplayExcludedResult extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_excluded_result);
+		getActionBar().hide();
+		
+		Intent intent = getIntent();
+		
+		//Generic Name
+	    String genericName = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
+		TextView genericNameTextView = (TextView) findViewById(R.id.excluded_drug_genericname);
+	    genericNameTextView.setText(genericName);
+	    genericNameTextView.setTypeface(null, Typeface.BOLD);
+	    
+	    TextView statusTextView = (TextView) findViewById(R.id.excluded);
+	    statusTextView.setText("\t" + "\t" + "EXCLUDED");
+	    statusTextView.setTextSize(20);
+		
+	    //Brand Names
+	    String brandNames = "\t" + "\t" + intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
+	    TextView brandNameTextView = (TextView) findViewById(R.id.excluded_brandnames);
+	    brandNameTextView.setText(brandNames);
+	    brandNameTextView.setTextSize(20);
 	}
 
 	@Override

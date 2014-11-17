@@ -10,7 +10,7 @@ public class NameList {
     }
     public int getNameListSize(){return nameList.size();}
     public boolean containsBrandName(String brandName) {
-        return nameList.containsValue(brandName);
+        return nameList.containsKey(brandName);
     }
 
     public void put(String brandName, String drugName) {

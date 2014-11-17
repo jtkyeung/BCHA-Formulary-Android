@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,21 +16,31 @@ public class DisplayFormularyResult extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_formulary_result);
+		getActionBar().hide();
+		Intent intent = getIntent();
 		
+		//Generic Name
+	    String genericName = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
+		TextView genericNameTextView = (TextView) findViewById(R.id.formulary_drug_genericname);
+	    genericNameTextView.setText(genericName);
+	    genericNameTextView.setTypeface(null, Typeface.BOLD);
 		
-		
-		 // Get the message from the intent
-	    Intent intent = getIntent();
+	    //Brand Names
+	    String brandNames = "\t" + "\t" + intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
+	    TextView brandNameTextView = (TextView) findViewById(R.id.formulary_brandnames);
+	    brandNameTextView.setText(brandNames);
+	    brandNameTextView.setTextSize(20);
+	    
+	    // Create strength text view
 	    ArrayList<String> input = intent.getStringArrayListExtra(MainActivity.EXTRA_STRENGTHS);
-	    String test = "Strengths:";
+	    String strengths = "";
 	    for(String s: input) {
-	    	 test += "\n" + "\t" + s;
+	    	 strengths += "\t" + "\t" + "- " + s + "\n";
 	    }
-
-	    // Create the text view
-	    TextView textView = (TextView) findViewById(R.id.formulary_result_view);
-	    textView.setText(test);
-	    textView.setTextSize(20);
+	    
+	    TextView strengthTextView = (TextView) findViewById(R.id.formulary_strength);
+	    strengthTextView.setText(strengths);
+	    strengthTextView.setTextSize(20);
 	}
 
 	@Override
