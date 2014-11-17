@@ -26,9 +26,9 @@
             android:name=".DisplayFormularyResult"
             android:label="@string/title_activity_display_formulary_result" >
         </activity>
-        <activity
-            android:name=".DisplayExcludedActivity"
-            android:label="@string/title_activity_display_excluded" >
+         <activity
+            android:name=".DisplayRestrictedResult"
+            android:label="@string/title_activity_display_restricted_result" >
         </activity>
         <activity
             android:name=".DisplayExcludedResult"

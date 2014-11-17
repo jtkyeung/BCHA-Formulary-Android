@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.Normalizer;
 
 import com.opencsv.CSVReader;
 
@@ -87,19 +88,24 @@ public class CSVparser {
 		try {
 			reader = new CSVReader(dataFile);
 			String [] nextLine;
+			String lastDrug=null;
+
 			reader.readNext(); //title line
 			while ((nextLine = reader.readNext()) != null) 	{
-				if(!((nextLine[0].equals("") &&(nextLine[2].equals(""))))){
-					// nextLine[] is an array of values from the line
-					if(nextLine[1].equals(""))
+				
+				if((nextLine[0].equals("")) && !(nextLine[2].equals(""))){
+					((RestrictedDrug)supplyList.getDrug(lastDrug)).additionalCriteria(nextLine[2] + "\n");//TODO fix to add line break
+				}
+				else if(!((nextLine[0].equals("")))){
+					if(nextLine[1].equals("")){
 						supplyList.addDrug(new RestrictedDrug(nextLine[0], "N/A", nextLine[2]));
+						lastDrug = nextLine[0];
+					}
 					else{
 						supplyList.addDrug(new RestrictedDrug(nextLine[0], nextLine[1], nextLine[2]));
 						addBrandName(nextLine [0], nextLine[1]);
+						lastDrug = nextLine[0];
 					}
-				}
-				else if ((nextLine[0]).equals("") && !(nextLine[2].equals(""))){
-					((RestrictedDrug)supplyList.getDrug(nextLine[0])).additionalCriteria(nextLine[2]);
 				}
 			}
 			dataFile.close();
