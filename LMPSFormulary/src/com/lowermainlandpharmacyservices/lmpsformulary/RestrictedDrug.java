@@ -8,7 +8,7 @@ public class RestrictedDrug extends Drug {
 		this.criteria = new StringBuffer(criteria);
 	}
 
-	public String getCriteriaString(){
+	public String getCriteria(){
 		return criteria.toString();
 	}
 
