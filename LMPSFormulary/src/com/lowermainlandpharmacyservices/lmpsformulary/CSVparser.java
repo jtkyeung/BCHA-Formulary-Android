@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.Normalizer;
 
 import com.opencsv.CSVReader;
 
@@ -26,11 +25,16 @@ public class CSVparser {
 			String [] nextLine;
 			reader.readNext(); //title line
 			while ((nextLine = reader.readNext()) != null) 	{
-				//				count++;
 				if(!(nextLine[0].equals(""))){
 					// nextLine[] is an array of values from the line
 					if(supplyList.containsGenericName(nextLine[0])){
 						((FormularyDrug)supplyList.getDrug(nextLine[0])).addStrength(nextLine[1]);
+						if(!(nextLine[2].equals("")) && (!(nameList.containsBrandName(nextLine[2])))){
+								addBrandName(nextLine[0],nextLine[2]);
+								StringBuffer addBrand = new StringBuffer(((FormularyDrug)supplyList.getDrug(nextLine[0])).getBrandName());
+								addBrand.append("\n\t\t"+nextLine[2]);
+								((FormularyDrug)supplyList.getDrug(nextLine[0])).setBrandName(addBrand.toString());
+							}
 					}
 					else if(nextLine[2].equals(""))
 						supplyList.addDrug(new FormularyDrug(nextLine[0], "N/A", nextLine[1]));
@@ -92,7 +96,7 @@ public class CSVparser {
 
 			reader.readNext(); //title line
 			while ((nextLine = reader.readNext()) != null) 	{
-				
+
 				if((nextLine[0].equals("")) && !(nextLine[2].equals(""))){
 					((RestrictedDrug)supplyList.getDrug(lastDrug)).additionalCriteria(nextLine[2] + "\n");//TODO fix to add line break
 				}
