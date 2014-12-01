@@ -157,7 +157,8 @@ public class CSVparser {
 			//add strength
 			((BrandFormularyDrug)brandList.getBrandDrug(brandName)).addStrength(strength);
 			//add generic name
-			((BrandFormularyDrug)brandList.getBrandDrug(brandName)).addGenericName(genericName);
+			if(!((BrandFormularyDrug)brandList.getBrandDrug(brandName)).containsGenericName(genericName))
+				((BrandFormularyDrug)brandList.getBrandDrug(brandName)).addGenericName(genericName);
 		}
 		else{
 			brandList.addBrandDrug(new BrandFormularyDrug(genericName, brandName, strength));
