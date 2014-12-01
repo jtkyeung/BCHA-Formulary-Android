@@ -1,5 +1,7 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,17 +20,34 @@ public class DisplayRestrictedResult extends Activity {
 		getActionBar().hide();
 		
 		Intent intent = getIntent();
+		String type = intent.getStringExtra(MainActivity.EXTRA_TYPE);
+		String name = "";
+		ArrayList<String> otherNames;
+		String otherNamesAsString = "";
 		
-		//Generic Name
-	    String genericName = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
+		if (type.equals("Generic")) {
+			name = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
+			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_BRANDNAME);
+			System.out.println("gothere");
+
+		} else if (type.equals("Brand")) {
+			name = intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
+			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_GENERICNAME);
+			
+			for (String s: otherNames) {
+				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+			}
+		
+		}
+		
+		//Search Name
 		TextView genericNameTextView = (TextView) findViewById(R.id.restricted_drug_genericname);
-	    genericNameTextView.setText(genericName);
+	    genericNameTextView.setText(name);
 	    genericNameTextView.setTypeface(null, Typeface.BOLD);
 		
-	    //Brand Names
-	    String brandNames = "\t" + "\t" + intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
+	    //Other Names
 	    TextView brandNameTextView = (TextView) findViewById(R.id.restricted_brandnames);
-	    brandNameTextView.setText(brandNames);
+	    brandNameTextView.setText(otherNamesAsString);
 	    brandNameTextView.setTextSize(20);
 	    
 	    
