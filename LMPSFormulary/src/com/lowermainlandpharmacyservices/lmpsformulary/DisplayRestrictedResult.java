@@ -24,8 +24,10 @@ public class DisplayRestrictedResult extends Activity {
 		String name = "";
 		ArrayList<String> otherNames;
 		String otherNamesAsString = "";
+		String genericbrandtitle = "";
 		
 		if (type.equals("Generic")) {
+			genericbrandtitle = "Brand Names:";
 			name = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
 			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_BRANDNAME);
 			System.out.println("gothere");
@@ -36,6 +38,7 @@ public class DisplayRestrictedResult extends Activity {
 
 
 		} else if (type.equals("Brand")) {
+			genericbrandtitle = "Generic Names:";
 			name = intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
 			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_GENERICNAME);
 			
@@ -51,6 +54,9 @@ public class DisplayRestrictedResult extends Activity {
 	    genericNameTextView.setTypeface(null, Typeface.BOLD);
 		
 	    //Other Names
+	    TextView nameHeaderTextView = (TextView) findViewById(R.id.generic_or_brand);
+	    nameHeaderTextView.setText(genericbrandtitle);
+	    
 	    TextView brandNameTextView = (TextView) findViewById(R.id.restricted_brandnames);
 	    brandNameTextView.setText(otherNamesAsString);
 	    brandNameTextView.setTextSize(20);
