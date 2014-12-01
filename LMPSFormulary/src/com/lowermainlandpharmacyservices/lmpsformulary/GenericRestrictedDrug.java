@@ -1,17 +1,11 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
-import java.util.ArrayList;
 
-public class GenericRestrictedDrug extends Drug {
-	public String genericName;
-	public ArrayList<String> brandNames;
+public class GenericRestrictedDrug extends GenericDrug {
 	public StringBuilder criteria;
 
 	public GenericRestrictedDrug(String genericName, String brandName, String criteria){
-        super("Restricted");
-        this.genericName = genericName;
-        brandNames = new ArrayList<String>();
-        brandNames.add(brandName);
+        super(genericName, brandName, "Restricted");
 		this.criteria = new StringBuilder(criteria);
 	}
 
