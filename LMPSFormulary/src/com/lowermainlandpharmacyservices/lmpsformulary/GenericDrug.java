@@ -3,10 +3,13 @@ package com.lowermainlandpharmacyservices.lmpsformulary;
 import java.util.ArrayList;
 
 public class GenericDrug extends Drug{
+	public String genericName;
 	public ArrayList<String> brandNames;
 	
 	public GenericDrug(String genericName,String brandName, String status){
-		super(genericName, status); //superconstructor Drug
+		super(status); //superconstructor Drug
+		
+		this.genericName = genericName;
 		
 		brandNames = new ArrayList<String>();
 		brandNames.add(brandName);
@@ -18,6 +21,12 @@ public class GenericDrug extends Drug{
 				return true;
 		}
 		return false;
+	}
+	public String getGenericName(){
+		return genericName;
+	}
+	public void setGenericName(String generic){
+		this.genericName = generic;
 	}
 	
 	public void addBrandName(String brand){

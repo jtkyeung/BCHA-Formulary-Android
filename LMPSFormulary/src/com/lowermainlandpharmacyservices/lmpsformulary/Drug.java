@@ -1,20 +1,10 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
 public class Drug {
-	public String genericName;
 	protected String status;
 	
-    public Drug(String genericName, String status){
-    	this.genericName = genericName;
+    public Drug(String status){
         this.status = status;
-    }
-    
-    public String getGenericName(){
-    	return genericName;
-    }
-    
-    public void setGenericName(String generic){
-    	this.genericName = generic;
     }
 
     public String getStatus() { 
