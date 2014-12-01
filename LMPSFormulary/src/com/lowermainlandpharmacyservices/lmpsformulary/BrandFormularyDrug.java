@@ -19,5 +19,9 @@ public class BrandFormularyDrug extends BrandDrug {
 	public void setStrengths(ArrayList<String> strengths) {
 		this.strengths = strengths;
 	}
+	
+	public void addStrength(String strength){
+		strengths.add(strength);
+	}
 
 }
