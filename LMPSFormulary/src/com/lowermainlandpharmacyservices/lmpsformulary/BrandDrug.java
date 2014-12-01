@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class BrandDrug extends Drug{
 	
 	public String brandName;
-	public ArrayList<String> genericName;
+	public ArrayList<String> genericNames;
 	
 	public BrandDrug(String genericName, String brandName, String status){
 		super(status);
-		this.genericName = new ArrayList<String>();
-		this.genericName.add(genericName);
+		this.genericNames = new ArrayList<String>();
+		this.genericNames.add(genericName);
 		this.brandName = brandName;
 	}
 
@@ -22,18 +22,19 @@ public class BrandDrug extends Drug{
 		this.brandName = brandName;
 	}
 	
-	public ArrayList<String> getGenericNameList(){
-		return genericName;
+	public ArrayList<String> getGenericNames(){
+		return genericNames;
 	}
 	public void addGenericName(String genericName){
-		this.genericName.add(genericName);
+		this.genericNames.add(genericName);
 	}
 	public boolean containsGenericName(String genericName){
-		for(String name:this.genericName){
+		for(String name:this.genericNames){
 			if(name.equals(genericName))
 				return true;
 		}
 		return false;
 	}
+
 
 }

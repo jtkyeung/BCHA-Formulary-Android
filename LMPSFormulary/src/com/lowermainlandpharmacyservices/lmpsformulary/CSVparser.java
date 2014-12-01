@@ -186,4 +186,12 @@ public class CSVparser {
 			}
 		}
 	}
+	
+	public GenericDrugList getListByGeneric() {
+		return genericList;
+	}
+	
+	public BrandDrugList getListByBrand() {
+		return brandList;
+	}
 }
