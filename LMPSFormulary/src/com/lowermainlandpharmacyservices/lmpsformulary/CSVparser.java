@@ -102,7 +102,6 @@ public class CSVparser {
 
 			reader.readNext(); //title line
 			while ((nextLine = reader.readNext()) != null) 	{
-
 				//extraline for restricted criteria
 				if((nextLine[0].equals("")) && !(nextLine[2].equals(""))){
 					((GenericRestrictedDrug)genericList.getGenericDrug(lastGenericDrug)).additionalCriteria(nextLine[2]);
@@ -114,9 +113,9 @@ public class CSVparser {
 						lastGenericDrug = nextLine[0]; //sets the last drug if next line is extra criteria
 					}
 					else{
-						if(nextLine[2].contains(",")){
+						if(nextLine[1].contains(",")){
 							String[] brandNameList;
-							brandNameList = nextLine[2].split(",");
+							brandNameList = nextLine[1].split(",");
 							brandList.addBrandDrug(new BrandRestrictedDrug(nextLine[0], brandNameList[0], nextLine[2]));
 							for(String additionalBrand:brandNameList){
 								//if brand name already exists, add just the generic name to the list
@@ -130,7 +129,8 @@ public class CSVparser {
 							lastBrandDrug = brandNameList[0];
 						}
 						else{
-							if(brandList.containsBrandName(nextLine[1])){
+							if(brandList.containsBrandName(nextLine[1]) && 
+									brandList.getBrandDrug(nextLine[1]).getStatus().equals("Restricted")){
 								((BrandRestrictedDrug)brandList.getBrandDrug(nextLine[1])).addGenericName(nextLine[0]);
 							}
 							else{
@@ -143,7 +143,7 @@ public class CSVparser {
 			}
 		}
 		catch (IOException e) {
-			System.out.println(e.getMessage());
+			System.out.println("I/O error " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally{
