@@ -30,6 +30,10 @@ public class DisplayExcludedResult extends Activity {
 			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_BRANDNAME);
 			System.out.println("gothere");
 
+			for (String s: otherNames) {
+				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+			}
+
 		} else if (type.equals("Brand")) {
 			name = intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
 			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_GENERICNAME);

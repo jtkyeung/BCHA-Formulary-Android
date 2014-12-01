@@ -27,6 +27,11 @@ public class DisplayFormularyResult extends Activity {
 			name = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
 			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_BRANDNAME);
 			System.out.println("gothere");
+			
+			for (String s: otherNames) {
+				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+			}
+
 
 		} else if (type.equals("Brand")) {
 			name = intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
