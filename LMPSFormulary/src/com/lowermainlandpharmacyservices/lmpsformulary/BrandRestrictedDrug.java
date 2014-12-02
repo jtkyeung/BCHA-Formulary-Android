@@ -16,6 +16,17 @@ public class BrandRestrictedDrug extends BrandDrug {
 
     public void additionalCriteria(String extraCriteria){
 //    	System.out.println(genericName+ " "+criteria +" "+ extraCriteria);
-        this.criteria.insert(criteria.length(), (" "+extraCriteria));
+    	char character;
+    	StringBuilder extraAddition = new StringBuilder();
+    	for (int i = 0; i < extraCriteria.length();i++){
+    		character = extraCriteria.charAt(i);
+//    		if(!(Character.isAlphabetic(character) || (Character.isDigit(character))))
+    		if(!(Character.isDefined(character) || Character.isIdentifierIgnorable(character)))
+    			extraAddition.append(' ');
+    		else{
+    			extraAddition.append(extraCriteria.charAt(i));
+    		}
+    	}
+    	this.criteria.insert(criteria.length(), ("\n "+extraAddition.toString()));	
     }
 }
