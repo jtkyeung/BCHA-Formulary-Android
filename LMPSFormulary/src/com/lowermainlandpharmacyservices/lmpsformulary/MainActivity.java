@@ -56,9 +56,7 @@ public class MainActivity extends Activity {
 			String line = reader.readLine();
 			currVersion = line;
 			System.out.println("current version is " + line);
-//			currVersion = (char)fis.read();
 			fis.close();
-//			fileVersion = (DownloadTask) fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1");
 			fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1").get(); //get() waits for a return
 			
 			fis = openFileInput("fileVersion.txt");
@@ -70,19 +68,19 @@ public class MainActivity extends Activity {
 			if(!(currVersion.equals(newVersion))){
 				updateNeeded = true;
 				System.out.println("We need an update!");
+				Toast.makeText(this, "File update in progress", Toast.LENGTH_LONG).show();
 				//wifi check
 				WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-				//if wifi is on
+				//if wifi is on	
 				if(wifi.isWifiEnabled()){
 					// execute this when the downloader must be fired
 					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
-					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
+					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1").get();
 					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
-					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
+					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
-					downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
+					downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1").get();
 					wifiIsOn = true;
-//					System.out.println("filesdownloaded");
 				}
 				else{ //if wifi is off
 					Toast.makeText(this, "A version update is available, please connect to wi-fi "
