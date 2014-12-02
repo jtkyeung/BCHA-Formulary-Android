@@ -38,6 +38,10 @@
             android:name=".DisplayExcludedResult"
             android:label="@string/title_activity_display_excluded_result" >
         </activity>
+         <activity
+            android:name=".DisplayOtherResult"
+            android:label="@string/title_activity_display_other_result" >
+        </activity>
     </application>
 
 </manifest>
