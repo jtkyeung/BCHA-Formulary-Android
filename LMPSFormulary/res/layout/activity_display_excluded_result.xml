@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#ff6600"
+        android:background="#005293"
         android:textColor="#FFFFFF"
         android:textSize="35sp" />
 
