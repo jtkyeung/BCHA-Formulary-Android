@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.opencsv.CSVParser;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -27,39 +29,28 @@ public class MainActivity extends Activity {
 
 	// declare the dialog as a member field of your activity
 	ProgressDialog mProgressDialog;
-	//BufferedReader file;
-
+	GenericDrugList genericList;
+	BrandDrugList brandList;
 
 	public AssetManager assetManager;
+	private Boolean toParse = true;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		getActionBar().hide();
 
-		assetManager = getAssets();
-		
-		// instantiate it within the onCreate method
-		mProgressDialog = new ProgressDialog(MainActivity.this);
-		mProgressDialog.setMessage("A message");
-		mProgressDialog.setIndeterminate(true);
-		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		mProgressDialog.setCancelable(true);
-		
+		//assetManager = getAssets();
+
 		// execute this when the downloader must be fired
-		final DownloadTask downloadTask = new DownloadTask(MainActivity.this);
-		downloadTask.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
-		//file = downloadTask.getBufferedReader();
-		
-		mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				downloadTask.cancel(true);
-			}
-		});
-		
-	
-		
+		final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formulary.csv");
+		downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
+		final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excluded.csv");
+		downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
+		final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restricted.csv");
+		downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
+		System.out.println("filesdownloaded");
 	}
 
 
@@ -90,25 +81,29 @@ public class MainActivity extends Activity {
 	public void displayResult(View view) throws Exception {
 
 		EditText editText = (EditText) findViewById(R.id.search_input);
-		String searchInput = editText.getText().toString().toUpperCase();
-		//Kelvin's changes begin (below)---------------------------------------
-		CSVparser masterList = new CSVparser();
-		System.out.println("initparser");
-		masterList.parseFormulary(openFileInput("test.csv"));
-		//masterList.parseFormulary(assetManager.open("formulary.csv"));
-		//masterList.parseFormulary(file);
-		System.out.println("formularyparsed");
-		masterList.parseExcluded(assetManager.open("excluded.csv"));
-		System.out.println("excludedparsed");
-		masterList.parseRestricted(assetManager.open("restricted.csv"));
-		System.out.println("parsingdidntbreak");
-		//Kelvin's changes end-------------------------------------------------
-
-		GenericDrugList genericList = masterList.getListByGeneric();
-		BrandDrugList brandList = masterList.getListByBrand();
-		System.out.println("madelists");
+		String searchInput = editText.getText().toString().toUpperCase().trim();
+		CSVparser masterList = null;
 		Drug drug = null;
-		String type;
+		String type = null;
+		
+		//Kelvin's changes begin (below)---------------------------------------
+		if (toParse) {
+			masterList = new CSVparser();
+			System.out.println("initparser");
+			masterList.parseFormulary(openFileInput("formulary.csv"));
+			//masterList.parseFormulary(assetManager.open("formulary.csv"));
+			System.out.println("formularyparsed");
+			masterList.parseExcluded(openFileInput("excluded.csv"));
+			System.out.println("excludedparsed");
+			masterList.parseRestricted(openFileInput("restricted.csv"));
+			System.out.println("parsingdidntbreak");
+
+			genericList = masterList.getListByGeneric();
+			brandList = masterList.getListByBrand();
+			
+			System.out.println("madelists");
+			toParse = false;
+		}
 
 		if(genericList.containsGenericName(searchInput)){
 			drug = genericList.getGenericDrug(searchInput);

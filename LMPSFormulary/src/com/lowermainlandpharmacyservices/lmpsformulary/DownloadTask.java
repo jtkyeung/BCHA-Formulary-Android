@@ -25,11 +25,12 @@ import android.widget.Toast;
 
 public class DownloadTask extends AsyncTask<String, Integer, String> {
 	 	private Context context;
+	 	private String filename;
 	    private PowerManager.WakeLock mWakeLock;
-	    //private BufferedReader file = null;
 
-	    public DownloadTask(Context context) {
+	    public DownloadTask(Context context, String filename) {
 	        this.context = context;
+	        this.filename = filename;
 	    }
 
 	    @Override
@@ -56,7 +57,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 
 	            // download the file
 	            input = connection.getInputStream();
-	            output = context.openFileOutput("test.csv", Context.MODE_PRIVATE);
+	            output = context.openFileOutput(filename, Context.MODE_PRIVATE);
 	            //output = new FileOutputStream(context.getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath());
 
 	            byte data[] = new byte[4096];
@@ -89,20 +90,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 	                connection.disconnect();
 	        }
 	        return null;
-	    	
-	    	/*HttpClient httpClient = new DefaultHttpClient();
-			HttpContext localContext = new BasicHttpContext();
-			HttpGet httpGet = new HttpGet("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
-			HttpResponse response;
-			
-			try {
-				response = httpClient.execute(httpGet, localContext);
-				file = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				return e.toString();
-			} 
-			return null;*/
+	        
 	    }
 	    
 	    @Override
@@ -120,16 +108,11 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 	    @Override
 	    protected void onProgressUpdate(Integer... progress) {
 	        super.onProgressUpdate(progress);
-	        // if we get here, length is known, now set indeterminate to false
-	        //mProgressDialog.setIndeterminate(false);
-	        //mProgressDialog.setMax(100);
-	        //mProgressDialog.setProgress(progress[0]);
 	    }
 
 	    @Override
 	    protected void onPostExecute(String result) {
 	        mWakeLock.release();
-	        //mProgressDialog.dismiss();
 	        if (result != null){
 	            Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
 	        	System.out.println(result);
@@ -138,7 +121,4 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 	        }
 	    }
 	    
-	    /*public BufferedReader getBufferedReader() {
-	    	return file;
-	    }*/
 }
