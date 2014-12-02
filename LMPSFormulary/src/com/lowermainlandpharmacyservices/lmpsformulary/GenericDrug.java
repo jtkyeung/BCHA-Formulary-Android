@@ -30,7 +30,9 @@ public class GenericDrug extends Drug{
 	}
 	
 	public void addBrandName(String brand){
-		brandNames.add(brand);
+		if(brand.equals("")){}
+		else
+			brandNames.add(brand);
 	}
 	
 	public ArrayList<String> getBrandNames(){

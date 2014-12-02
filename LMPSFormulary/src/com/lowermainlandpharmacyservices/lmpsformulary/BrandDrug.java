@@ -26,7 +26,9 @@ public class BrandDrug extends Drug{
 		return genericNames;
 	}
 	public void addGenericName(String genericName){
-		this.genericNames.add(genericName);
+		if(genericName.equals("")){}
+		else
+			this.genericNames.add(genericName);
 	}
 	public boolean containsGenericName(String genericName){
 		for(String name:this.genericNames){
