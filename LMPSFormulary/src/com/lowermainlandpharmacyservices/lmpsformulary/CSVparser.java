@@ -6,7 +6,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.opencsv.CSVReader;
-
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 
 public class CSVparser {
 	GenericDrugList genericList;
@@ -17,6 +23,7 @@ public class CSVparser {
 		brandList = new BrandDrugList();
 	}
 	public void parseFormulary(InputStream csvFile){
+	//public void parseFormulary(BufferedReader dataFile){
 		BufferedReader dataFile = new BufferedReader(new InputStreamReader(csvFile));
 		CSVReader reader = null;
 		//		int count = 0;
@@ -123,7 +130,7 @@ public class CSVparser {
 									((BrandRestrictedDrug)brandList.getBrandDrug(nextLine[1])).addGenericName(nextLine[0]);
 								}
 								else{
-								brandList.addBrandDrug(new BrandRestrictedDrug(nextLine[0], additionalBrand, nextLine[2]));
+									brandList.addBrandDrug(new BrandRestrictedDrug(nextLine[0], additionalBrand, nextLine[2]));
 								}
 							}
 							lastBrandDrug = brandNameList[0];
@@ -134,8 +141,8 @@ public class CSVparser {
 								((BrandRestrictedDrug)brandList.getBrandDrug(nextLine[1])).addGenericName(nextLine[0]);
 							}
 							else{
-							brandList.addBrandDrug(new BrandRestrictedDrug(nextLine[0], nextLine[1], nextLine[2]));
-							lastBrandDrug = nextLine[1];
+								brandList.addBrandDrug(new BrandRestrictedDrug(nextLine[0], nextLine[1], nextLine[2]));
+								lastBrandDrug = nextLine[1];
 							}
 						}
 					}
@@ -164,7 +171,7 @@ public class CSVparser {
 			brandList.addBrandDrug(new BrandFormularyDrug(genericName, brandName, strength));
 		}
 	}
-	
+
 	private void addGenericFormularyDrugWithBrandName(String genericName, String strength,
 			String brandName) {
 		if(brandName.contains(",")){
@@ -187,11 +194,11 @@ public class CSVparser {
 			}
 		}
 	}
-	
+
 	public GenericDrugList getListByGeneric() {
 		return genericList;
 	}
-	
+
 	public BrandDrugList getListByBrand() {
 		return brandList;
 	}
