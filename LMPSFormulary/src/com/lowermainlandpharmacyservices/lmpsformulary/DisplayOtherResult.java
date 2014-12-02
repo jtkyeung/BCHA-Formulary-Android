@@ -1,13 +1,13 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 public class DisplayOtherResult extends Activity {
@@ -49,5 +49,10 @@ public class DisplayOtherResult extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void viewTable(View view){
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dropbox.com/s/ml7hzijr00pcl6u/formulary%20%281%29.pdf?dl=1"));
+		startActivity(browserIntent);
 	}
 }
