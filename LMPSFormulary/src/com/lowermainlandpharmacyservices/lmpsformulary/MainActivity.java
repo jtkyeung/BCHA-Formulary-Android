@@ -1,6 +1,8 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -19,6 +21,9 @@ public class MainActivity extends Activity {
 	public final static String EXTRA_RESTRICTIONS = "com.lowermainlandpharmacyservices.MainActivity.RESTRICTIONS";
 	public final static String EXTRA_TYPE = "com.lowermainlandpharmacyservices.MainActivity.TYPE";
 
+	// declare the dialog as a member field of your activity
+	ProgressDialog mProgressDialog;
+
 
 	public AssetManager assetManager;
 	@Override
@@ -28,6 +33,24 @@ public class MainActivity extends Activity {
 		getActionBar().hide();
 
 		assetManager = getAssets();
+		
+		// instantiate it within the onCreate method
+		mProgressDialog = new ProgressDialog(MainActivity.this);
+		mProgressDialog.setMessage("A message");
+		mProgressDialog.setIndeterminate(true);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		mProgressDialog.setCancelable(true);
+		
+		// execute this when the downloader must be fired
+		final DownloadTask downloadTask = new DownloadTask(MainActivity.this);
+		downloadTask.execute("https://www.dropbox.com/s/4bc4wgv9n8hhcy4/testFile.csv?dl=1");
+
+		mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				downloadTask.cancel(true);
+			}
+		});
 	}
 
 
@@ -37,6 +60,7 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+
 	}
 
 
@@ -53,8 +77,10 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+
 	public void displayResult(View view) throws Exception {
 
+		//------------------------------------------------------------------
 		EditText editText = (EditText) findViewById(R.id.search_input);
 		String searchInput = editText.getText().toString().toUpperCase();
 		//Kelvin's changes begin (below)---------------------------------------
@@ -78,7 +104,7 @@ public class MainActivity extends Activity {
 			drug = genericList.getGenericDrug(searchInput);
 			type = "Generic";
 			System.out.println("checkdrug");
-			
+
 			if (drug.getStatus() == "Formulary") { 
 				Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
 				GenericFormularyDrug fdrug = (GenericFormularyDrug) drug;
@@ -88,7 +114,7 @@ public class MainActivity extends Activity {
 				formularyResult.putExtra(EXTRA_TYPE, type);
 				startActivity(formularyResult);
 				System.out.println("startedactivity");
-	
+
 			} else if (drug.getStatus() == "Restricted") {
 				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
 				GenericRestrictedDrug rdrug = (GenericRestrictedDrug) drug;
@@ -97,7 +123,7 @@ public class MainActivity extends Activity {
 				restrictedResult.putExtra(EXTRA_RESTRICTIONS, rdrug.getCriteria());
 				restrictedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(restrictedResult);
-	
+
 			} else if (drug.getStatus() == "Excluded") {
 				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
 				GenericExcludedDrug edrug = (GenericExcludedDrug) drug;
@@ -106,11 +132,11 @@ public class MainActivity extends Activity {
 				excludedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(excludedResult);
 			}
-			
+
 		} else if (brandList.containsBrandName(searchInput)){
 			drug = brandList.getBrandDrug(searchInput);
 			type = "Brand";
-			
+
 			if (drug.getStatus() == "Formulary") { 
 				Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
 				BrandFormularyDrug fdrug = (BrandFormularyDrug) drug;
@@ -119,7 +145,7 @@ public class MainActivity extends Activity {
 				formularyResult.putStringArrayListExtra(EXTRA_STRENGTHS, fdrug.getStrengths());
 				formularyResult.putExtra(EXTRA_TYPE, type);
 				startActivity(formularyResult);
-	
+
 			} else if (drug.getStatus() == "Restricted") {
 				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
 				BrandRestrictedDrug rdrug = (BrandRestrictedDrug) drug;
@@ -128,7 +154,7 @@ public class MainActivity extends Activity {
 				restrictedResult.putExtra(EXTRA_RESTRICTIONS, rdrug.getCriteria());
 				restrictedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(restrictedResult);
-	
+
 			} else if (drug.getStatus() == "Excluded") {
 				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
 				BrandExcludedDrug edrug = (BrandExcludedDrug) drug;
@@ -137,12 +163,12 @@ public class MainActivity extends Activity {
 				excludedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(excludedResult);
 			}
-			
+
 		} else {
 			Toast toast = Toast.makeText(getApplicationContext(), "Drug " + "(" + searchInput + ")" + " Not Found", Toast.LENGTH_SHORT);
 			toast.show();
 		}
-		
+
 	}
 
 }
