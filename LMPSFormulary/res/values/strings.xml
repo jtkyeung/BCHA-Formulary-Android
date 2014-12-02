@@ -22,6 +22,6 @@
     <string name="title_activity_display_other_result">DisplayOtherResult</string>
     <string name="spelling">Spelling</string>
     <string name="drugnotfound">Drug Not Found</string>
-    <string name="display_table">Show every drug in the inventory</string>
+    <string name="display_table">Download Formulary</string>
 
 </resources>

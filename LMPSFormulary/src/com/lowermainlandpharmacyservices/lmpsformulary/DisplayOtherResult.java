@@ -25,11 +25,11 @@ public class DisplayOtherResult extends Activity {
 	    topTextView.setTypeface(null, Typeface.BOLD);
 	    
 	    TextView inputView = (TextView) findViewById(R.id.drugnotfound);
-	    inputView.setText(searchInput + " was not found.");
+	    inputView.setText("Sorry, " + searchInput + " was not found.");
 	    inputView.setTypeface(null, Typeface.BOLD);
 		
 	    TextView descriptionView = (TextView) findViewById(R.id.description);
-	    descriptionView.setText("If you think this drug should be on the formulary, please check your spelling and try again." +  "\n" + "\n"+ "This drug may also be a non-formulary drug.");
+	    descriptionView.setText("This drug appears to be a non-formulary drug. If you think this drug should be on the formulary, please check your spelling and try again." +  "\n" + "\n"+ "If you would like to view the full drug inventory, sorted alphabetically by status, download using the following button:" + "\n");
 	}
 
 	@Override
