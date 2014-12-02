@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
 			}else {
 				currVersion = "";
 			}
-			fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1").get(); //get() waits for a return
+			fileVersion.execute("https://www.dropbox.com/s/4cvo08xnmlg7qr6/update.txt?dl=1").get(); //get() waits for a return
 
 			fis = openFileInput("fileVersion.txt");
 			reader = new BufferedReader(new InputStreamReader(fis));
