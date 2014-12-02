@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class DownloadTask extends AsyncTask<String, Integer, String> {
 	 	private Context context;
 	    private PowerManager.WakeLock mWakeLock;
-	    private BufferedReader file = null;
+	    //private BufferedReader file = null;
 
 	    public DownloadTask(Context context) {
 	        this.context = context;
@@ -138,7 +138,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 	        }
 	    }
 	    
-	    public BufferedReader getBufferedReader() {
+	    /*public BufferedReader getBufferedReader() {
 	    	return file;
-	    }
+	    }*/
 }

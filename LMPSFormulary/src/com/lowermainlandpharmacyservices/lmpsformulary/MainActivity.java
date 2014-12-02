@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 		
 		// execute this when the downloader must be fired
 		final DownloadTask downloadTask = new DownloadTask(MainActivity.this);
-		downloadTask.execute("https://www.dropbox.com/s/4bc4wgv9n8hhcy4/testFile.csv?dl=1");
+		downloadTask.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
 		//file = downloadTask.getBufferedReader();
 		
 		mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -94,7 +94,8 @@ public class MainActivity extends Activity {
 		//Kelvin's changes begin (below)---------------------------------------
 		CSVparser masterList = new CSVparser();
 		System.out.println("initparser");
-		masterList.parseFormulary(assetManager.open("formulary.csv"));
+		masterList.parseFormulary(openFileInput("test.csv"));
+		//masterList.parseFormulary(assetManager.open("formulary.csv"));
 		//masterList.parseFormulary(file);
 		System.out.println("formularyparsed");
 		masterList.parseExcluded(assetManager.open("excluded.csv"));
