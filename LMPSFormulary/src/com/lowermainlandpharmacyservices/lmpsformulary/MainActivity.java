@@ -1,5 +1,8 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -30,7 +33,8 @@ public class MainActivity extends Activity {
 	public AssetManager assetManager;
 	private Boolean toParse = true;
 	private boolean wifiIsOn;
-	
+	private boolean updateNeeded;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,160 +42,194 @@ public class MainActivity extends Activity {
 		getActionBar().hide();
 
 		assetManager = getAssets();
+		FileInputStream fis=null;;
+		char currVersion;
+		//checks if files need update
+		DownloadTask fileVersion = new DownloadTask(MainActivity.this, "fileVersion.txt");
 
-		//wifi check
-		WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		//if wifi is on
-		if(wifi.isWifiEnabled()){
-			// execute this when the downloader must be fired
-			final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formulary.csv");
-			downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
-			final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excluded.csv");
-			downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
-			final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restricted.csv");
-			downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
-			wifiIsOn = true;
-			System.out.println("filesdownloaded");
-		}
-		else{ //if wifi is off
-			Toast.makeText(this, "Please enable Wi-Fi to ensure list can update", Toast.LENGTH_LONG).show();
-			wifiIsOn= false;
-		}
-	}
-
-
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-
-	}
-
-
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-
-	public void displayResult(View view) throws Exception {
-
-		EditText editText = (EditText) findViewById(R.id.search_input);
-		String searchInput = editText.getText().toString().toUpperCase().trim();
-		CSVparser masterList = null;
-		Drug drug = null;
-		String type = null;
-		
-		//Kelvin's changes begin (below)---------------------------------------
-		if (toParse) {
-			masterList = new CSVparser();
-			System.out.println("initparser");
-			if (wifiIsOn){
-				Toast.makeText(this, "Please be patient while the lists are updating", Toast.LENGTH_LONG).show();
-				System.out.println("parser from updated files");
-				masterList.parseFormulary(openFileInput("formulary.csv"));
-				System.out.println("formularyparsed");
-				masterList.parseExcluded(openFileInput("excluded.csv"));
-				System.out.println("excludedparsed");
-				masterList.parseRestricted(openFileInput("restricted.csv"));
-				System.out.println("parsingdidntbreak");
-			}
-			else{
-				System.out.println("parser from default files");
-				masterList.parseFormulary(assetManager.open("formulary.csv"));
-				System.out.println("formularyparsed");
-				masterList.parseExcluded(assetManager.open("excluded.csv"));
-				System.out.println("excludedparsed");
-				masterList.parseRestricted(assetManager.open("restricted.csv"));
-			}
-			System.out.println("parsingdidntbreak");
-
-			genericList = masterList.getListByGeneric();
-			brandList = masterList.getListByBrand();
+		try {
+			fis = openFileInput("fileVersion.txt");
+			currVersion = (char)fis.read();
 			
-			System.out.println("madelists");
-			toParse = false;
-		}
-
-		if(genericList.containsGenericName(searchInput)){
-			drug = genericList.getGenericDrug(searchInput);
-			type = "Generic";
-			System.out.println("checkdrug");
-
-			if (drug.getStatus() == "Formulary") { 
-				Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
-				GenericFormularyDrug fdrug = (GenericFormularyDrug) drug;
-				formularyResult.putExtra(EXTRA_GENERICNAME, fdrug.getGenericName());
-				formularyResult.putStringArrayListExtra(EXTRA_BRANDNAME, fdrug.getBrandNames());
-				formularyResult.putStringArrayListExtra(EXTRA_STRENGTHS, fdrug.getStrengths());
-				formularyResult.putExtra(EXTRA_TYPE, type);
-				startActivity(formularyResult);
-				System.out.println("startedactivity");
-
-			} else if (drug.getStatus() == "Restricted") {
-				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
-				GenericRestrictedDrug rdrug = (GenericRestrictedDrug) drug;
-				restrictedResult.putExtra(EXTRA_GENERICNAME, rdrug.getGenericName());
-				restrictedResult.putStringArrayListExtra(EXTRA_BRANDNAME, rdrug.getBrandNames());
-				restrictedResult.putExtra(EXTRA_RESTRICTIONS, rdrug.getCriteria());
-				restrictedResult.putExtra(EXTRA_TYPE, type);
-				startActivity(restrictedResult);
-
-			} else if (drug.getStatus() == "Excluded") {
-				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
-				GenericExcludedDrug edrug = (GenericExcludedDrug) drug;
-				excludedResult.putExtra(EXTRA_GENERICNAME, edrug.getGenericName());
-				excludedResult.putStringArrayListExtra(EXTRA_BRANDNAME, edrug.getBrandNames());
-				excludedResult.putExtra(EXTRA_TYPE, type);
-				startActivity(excludedResult);
+//			fileVersion = (DownloadTask) fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1");
+			fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1");
+			fis.close();
+			fis = openFileInput("fileVersion.txt");
+			System.out.println("currVersion is "+ currVersion + " newVersion is " + ((char)fis.read()));
+			char newVersion = (char) fis.read();
+			if(currVersion != newVersion){
+				updateNeeded = true;
+				System.out.println("We need an update!");
+				//wifi check
+				WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+				//if wifi is on
+				if(wifi.isWifiEnabled()){
+					// execute this when the downloader must be fired
+					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
+					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
+					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
+					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
+					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
+					downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
+					wifiIsOn = true;
+					System.out.println("filesdownloaded");
+				}
+				else{ //if wifi is off
+					Toast.makeText(this, "A version update is available, please connect to wi-fi "
+							+ "and restart to app to update", Toast.LENGTH_LONG).show();
+					wifiIsOn= false;
+				}
 			}
-
-		} else if (brandList.containsBrandName(searchInput)){
-			drug = brandList.getBrandDrug(searchInput);
-			type = "Brand";
-
-			if (drug.getStatus() == "Formulary") { 
-				Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
-				BrandFormularyDrug fdrug = (BrandFormularyDrug) drug;
-				formularyResult.putExtra(EXTRA_GENERICNAME, fdrug.getGenericNames());
-				formularyResult.putExtra(EXTRA_BRANDNAME, fdrug.getBrandName());
-				formularyResult.putStringArrayListExtra(EXTRA_STRENGTHS, fdrug.getStrengths());
-				formularyResult.putExtra(EXTRA_TYPE, type);
-				startActivity(formularyResult);
-
-			} else if (drug.getStatus() == "Restricted") {
-				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
-				BrandRestrictedDrug rdrug = (BrandRestrictedDrug) drug;
-				restrictedResult.putStringArrayListExtra(EXTRA_GENERICNAME, rdrug.getGenericNames());
-				restrictedResult.putExtra(EXTRA_BRANDNAME, rdrug.getBrandName());
-				restrictedResult.putExtra(EXTRA_RESTRICTIONS, rdrug.getCriteria());
-				restrictedResult.putExtra(EXTRA_TYPE, type);
-				startActivity(restrictedResult);
-
-			} else if (drug.getStatus() == "Excluded") {
-				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
-				BrandExcludedDrug edrug = (BrandExcludedDrug) drug;
-				excludedResult.putStringArrayListExtra(EXTRA_GENERICNAME, edrug.getGenericNames());
-				excludedResult.putExtra(EXTRA_BRANDNAME, edrug.getBrandName());
-				excludedResult.putExtra(EXTRA_TYPE, type);
-				startActivity(excludedResult);
-			}
-
-		} else {
-			Toast toast = Toast.makeText(getApplicationContext(), "Drug " + "(" + searchInput + ")" + " Not Found", Toast.LENGTH_SHORT);
-			toast.show();
 		}
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+		catch (Exception e){
+			currVersion = '0'; //TODO change later
+		}
+		finally {
+		}
+		try {
+			if (fis != null)
+				fis.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+}
 
+
+
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+	// Inflate the menu; this adds items to the action bar if it is present.
+	getMenuInflater().inflate(R.menu.main, menu);
+	return true;
+
+}
+
+
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+	// Handle action bar item clicks here. The action bar will
+	// automatically handle clicks on the Home/Up button, so long
+	// as you specify a parent activity in AndroidManifest.xml.
+	int id = item.getItemId();
+	if (id == R.id.action_settings) {
+		return true;
 	}
+	return super.onOptionsItemSelected(item);
+}
+
+
+public void displayResult(View view) throws Exception {
+
+	EditText editText = (EditText) findViewById(R.id.search_input);
+	String searchInput = editText.getText().toString().toUpperCase().trim();
+	CSVparser masterList = null;
+	Drug drug = null;
+	String type = null;
+
+	//Kelvin's changes begin (below)---------------------------------------
+	if (toParse) {
+		masterList = new CSVparser();
+		System.out.println("initparser");
+		if (wifiIsOn){
+			Toast.makeText(this, "Please be patient while the lists are updating", Toast.LENGTH_LONG).show();
+			System.out.println("parser from updated files");
+			masterList.parseFormulary(openFileInput("formularyUpdated.csv"));
+			System.out.println("formularyparsed");
+			masterList.parseExcluded(openFileInput("excludedUpdated.csv"));
+			System.out.println("excludedparsed");
+			masterList.parseRestricted(openFileInput("restrictedUpdated.csv"));
+			System.out.println("parsingdidntbreak");
+		}
+		else{
+			System.out.println("parser from default files");
+			masterList.parseFormulary(assetManager.open("formulary.csv"));
+			System.out.println("formularyparsed");
+			masterList.parseExcluded(assetManager.open("excluded.csv"));
+			System.out.println("excludedparsed");
+			masterList.parseRestricted(assetManager.open("restricted.csv"));
+		}
+		System.out.println("parsingdidntbreak");
+
+		genericList = masterList.getListByGeneric();
+		brandList = masterList.getListByBrand();
+
+		System.out.println("madelists");
+		toParse = false;
+	}
+
+	if(genericList.containsGenericName(searchInput)){
+		drug = genericList.getGenericDrug(searchInput);
+		type = "Generic";
+		System.out.println("checkdrug");
+
+		if (drug.getStatus() == "Formulary") { 
+			Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
+			GenericFormularyDrug fdrug = (GenericFormularyDrug) drug;
+			formularyResult.putExtra(EXTRA_GENERICNAME, fdrug.getGenericName());
+			formularyResult.putStringArrayListExtra(EXTRA_BRANDNAME, fdrug.getBrandNames());
+			formularyResult.putStringArrayListExtra(EXTRA_STRENGTHS, fdrug.getStrengths());
+			formularyResult.putExtra(EXTRA_TYPE, type);
+			startActivity(formularyResult);
+			System.out.println("startedactivity");
+
+		} else if (drug.getStatus() == "Restricted") {
+			Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
+			GenericRestrictedDrug rdrug = (GenericRestrictedDrug) drug;
+			restrictedResult.putExtra(EXTRA_GENERICNAME, rdrug.getGenericName());
+			restrictedResult.putStringArrayListExtra(EXTRA_BRANDNAME, rdrug.getBrandNames());
+			restrictedResult.putExtra(EXTRA_RESTRICTIONS, rdrug.getCriteria());
+			restrictedResult.putExtra(EXTRA_TYPE, type);
+			startActivity(restrictedResult);
+
+		} else if (drug.getStatus() == "Excluded") {
+			Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
+			GenericExcludedDrug edrug = (GenericExcludedDrug) drug;
+			excludedResult.putExtra(EXTRA_GENERICNAME, edrug.getGenericName());
+			excludedResult.putStringArrayListExtra(EXTRA_BRANDNAME, edrug.getBrandNames());
+			excludedResult.putExtra(EXTRA_TYPE, type);
+			startActivity(excludedResult);
+		}
+
+	} else if (brandList.containsBrandName(searchInput)){
+		drug = brandList.getBrandDrug(searchInput);
+		type = "Brand";
+
+		if (drug.getStatus() == "Formulary") { 
+			Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
+			BrandFormularyDrug fdrug = (BrandFormularyDrug) drug;
+			formularyResult.putExtra(EXTRA_GENERICNAME, fdrug.getGenericNames());
+			formularyResult.putExtra(EXTRA_BRANDNAME, fdrug.getBrandName());
+			formularyResult.putStringArrayListExtra(EXTRA_STRENGTHS, fdrug.getStrengths());
+			formularyResult.putExtra(EXTRA_TYPE, type);
+			startActivity(formularyResult);
+
+		} else if (drug.getStatus() == "Restricted") {
+			Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
+			BrandRestrictedDrug rdrug = (BrandRestrictedDrug) drug;
+			restrictedResult.putStringArrayListExtra(EXTRA_GENERICNAME, rdrug.getGenericNames());
+			restrictedResult.putExtra(EXTRA_BRANDNAME, rdrug.getBrandName());
+			restrictedResult.putExtra(EXTRA_RESTRICTIONS, rdrug.getCriteria());
+			restrictedResult.putExtra(EXTRA_TYPE, type);
+			startActivity(restrictedResult);
+
+		} else if (drug.getStatus() == "Excluded") {
+			Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
+			BrandExcludedDrug edrug = (BrandExcludedDrug) drug;
+			excludedResult.putStringArrayListExtra(EXTRA_GENERICNAME, edrug.getGenericNames());
+			excludedResult.putExtra(EXTRA_BRANDNAME, edrug.getBrandName());
+			excludedResult.putExtra(EXTRA_TYPE, type);
+			startActivity(excludedResult);
+		}
+
+	} else {
+		Toast toast = Toast.makeText(getApplicationContext(), "Drug " + "(" + searchInput + ")" + " Not Found", Toast.LENGTH_SHORT);
+		toast.show();
+	}
+
+}
 
 }
