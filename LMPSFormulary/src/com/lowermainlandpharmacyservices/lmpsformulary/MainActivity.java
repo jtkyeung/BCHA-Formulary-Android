@@ -1,16 +1,11 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import com.opencsv.CSVParser;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +29,7 @@ public class MainActivity extends Activity {
 
 	public AssetManager assetManager;
 	private Boolean toParse = true;
+	private boolean wifiIsOn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +37,26 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		getActionBar().hide();
 
-		//assetManager = getAssets();
+		assetManager = getAssets();
 
-		// execute this when the downloader must be fired
-		final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formulary.csv");
-		downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
-		final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excluded.csv");
-		downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
-		final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restricted.csv");
-		downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
-		System.out.println("filesdownloaded");
+		//wifi check
+		WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		//if wifi is on
+		if(wifi.isWifiEnabled()){
+			// execute this when the downloader must be fired
+			final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formulary.csv");
+			downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
+			final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excluded.csv");
+			downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
+			final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restricted.csv");
+			downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
+			wifiIsOn = true;
+			System.out.println("filesdownloaded");
+		}
+		else{ //if wifi is off
+			Toast.makeText(this, "Please enable Wi-Fi to ensure list can update", Toast.LENGTH_LONG).show();
+			wifiIsOn= false;
+		}
 	}
 
 
@@ -90,12 +96,24 @@ public class MainActivity extends Activity {
 		if (toParse) {
 			masterList = new CSVparser();
 			System.out.println("initparser");
-			masterList.parseFormulary(openFileInput("formulary.csv"));
-			//masterList.parseFormulary(assetManager.open("formulary.csv"));
-			System.out.println("formularyparsed");
-			masterList.parseExcluded(openFileInput("excluded.csv"));
-			System.out.println("excludedparsed");
-			masterList.parseRestricted(openFileInput("restricted.csv"));
+			if (wifiIsOn){
+				Toast.makeText(this, "Please be patient while the lists are updating", Toast.LENGTH_LONG).show();
+				System.out.println("parser from updated files");
+				masterList.parseFormulary(openFileInput("formulary.csv"));
+				System.out.println("formularyparsed");
+				masterList.parseExcluded(openFileInput("excluded.csv"));
+				System.out.println("excludedparsed");
+				masterList.parseRestricted(openFileInput("restricted.csv"));
+				System.out.println("parsingdidntbreak");
+			}
+			else{
+				System.out.println("parser from default files");
+				masterList.parseFormulary(assetManager.open("formulary.csv"));
+				System.out.println("formularyparsed");
+				masterList.parseExcluded(assetManager.open("excluded.csv"));
+				System.out.println("excludedparsed");
+				masterList.parseRestricted(assetManager.open("restricted.csv"));
+			}
 			System.out.println("parsingdidntbreak");
 
 			genericList = masterList.getListByGeneric();
