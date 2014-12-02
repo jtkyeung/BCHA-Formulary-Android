@@ -1,5 +1,9 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -23,6 +27,7 @@ public class MainActivity extends Activity {
 
 	// declare the dialog as a member field of your activity
 	ProgressDialog mProgressDialog;
+	//BufferedReader file;
 
 
 	public AssetManager assetManager;
@@ -44,13 +49,17 @@ public class MainActivity extends Activity {
 		// execute this when the downloader must be fired
 		final DownloadTask downloadTask = new DownloadTask(MainActivity.this);
 		downloadTask.execute("https://www.dropbox.com/s/4bc4wgv9n8hhcy4/testFile.csv?dl=1");
-
+		//file = downloadTask.getBufferedReader();
+		
 		mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {
 				downloadTask.cancel(true);
 			}
 		});
+		
+	
+		
 	}
 
 
@@ -80,13 +89,13 @@ public class MainActivity extends Activity {
 
 	public void displayResult(View view) throws Exception {
 
-		//------------------------------------------------------------------
 		EditText editText = (EditText) findViewById(R.id.search_input);
 		String searchInput = editText.getText().toString().toUpperCase();
 		//Kelvin's changes begin (below)---------------------------------------
 		CSVparser masterList = new CSVparser();
 		System.out.println("initparser");
 		masterList.parseFormulary(assetManager.open("formulary.csv"));
+		//masterList.parseFormulary(file);
 		System.out.println("formularyparsed");
 		masterList.parseExcluded(assetManager.open("excluded.csv"));
 		System.out.println("excludedparsed");

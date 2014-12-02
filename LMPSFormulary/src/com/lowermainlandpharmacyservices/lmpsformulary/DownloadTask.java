@@ -1,11 +1,21 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -16,6 +26,7 @@ import android.widget.Toast;
 public class DownloadTask extends AsyncTask<String, Integer, String> {
 	 	private Context context;
 	    private PowerManager.WakeLock mWakeLock;
+	    private BufferedReader file = null;
 
 	    public DownloadTask(Context context) {
 	        this.context = context;
@@ -78,6 +89,20 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 	                connection.disconnect();
 	        }
 	        return null;
+	    	
+	    	/*HttpClient httpClient = new DefaultHttpClient();
+			HttpContext localContext = new BasicHttpContext();
+			HttpGet httpGet = new HttpGet("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
+			HttpResponse response;
+			
+			try {
+				response = httpClient.execute(httpGet, localContext);
+				file = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				return e.toString();
+			} 
+			return null;*/
 	    }
 	    
 	    @Override
@@ -110,7 +135,10 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 	        	System.out.println(result);
 	        } else {
 	            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
-	            System.out.println(result);
 	        }
+	    }
+	    
+	    public BufferedReader getBufferedReader() {
+	    	return file;
 	    }
 }
