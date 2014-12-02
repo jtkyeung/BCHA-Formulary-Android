@@ -1,17 +1,19 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.opencsv.CSVParser;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,26 +33,95 @@ public class MainActivity extends Activity {
 	ProgressDialog mProgressDialog;
 	GenericDrugList genericList;
 	BrandDrugList brandList;
+	SharedPreferences settings;
+	SharedPreferences.Editor editor;
 
 	public AssetManager assetManager;
 	private Boolean toParse = true;
-	
+	private boolean wifiIsOn;
+	private boolean updateNeeded = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		getActionBar().hide();
 
-		//assetManager = getAssets();
+		assetManager = getAssets();
+		FileInputStream fis = null;
+		String currVersion;
+		BufferedReader reader;
+		String line;
+		//checks if files need update
+		DownloadTask fileVersion = new DownloadTask(MainActivity.this, "fileVersion.txt");
+		settings = getApplicationContext().getSharedPreferences("foo", 0);
+		editor = settings.edit();
+		try {
+			if(settings.contains("filesDownloaded")) {
+				fis = openFileInput("fileVersion.txt");
+				reader = new BufferedReader(new InputStreamReader(fis));
+				line = reader.readLine();
+				currVersion = line;
+				System.out.println("current version is " + line);
+				fis.close();
+			}else {
+				currVersion = "";
+			}
+			fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1").get(); //get() waits for a return
 
-		// execute this when the downloader must be fired
-		final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formulary.csv");
-		downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
-		final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excluded.csv");
-		downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
-		final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restricted.csv");
-		downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
-		System.out.println("filesdownloaded");
+			fis = openFileInput("fileVersion.txt");
+			reader = new BufferedReader(new InputStreamReader(fis));
+			line = reader.readLine();
+			String newVersion =line;
+			System.out.println("currVersion is "+ currVersion + " newVersion is " + newVersion);
+
+			if(!(currVersion.equals(newVersion))){
+				updateNeeded = true;
+				System.out.println("We need an update!");
+				Toast.makeText(this, "File update in progress", Toast.LENGTH_LONG).show();
+				//wifi check
+				WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+				//if wifi is on	
+				if(wifi.isWifiEnabled()){
+					// execute this when the downloader must be fired
+					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
+					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1").get();
+					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
+					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
+					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
+					downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1").get();
+					wifiIsOn = true;
+
+					// We need an Editor object to make preference changes.
+					// All objects are from android.context.Context
+					editor.putBoolean("filesDownloaded", true);
+					editor.commit();
+					Toast.makeText(this, "Update completed", Toast.LENGTH_LONG).show();
+				}
+				else{ //if wifi is off
+					Toast.makeText(this, "A version update is available, please connect to wi-fi "
+							+ "and restart to app to update", Toast.LENGTH_LONG).show();
+					wifiIsOn= false;
+				}
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+		catch (Exception e){
+			currVersion = "-2"; //TODO change later
+		}
+		finally {
+			try {
+				if (fis != null)
+					fis.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+			//delete after
+			editor.putBoolean("toParse", true);
+			editor.commit();
+		}
 	}
 
 
@@ -85,24 +156,37 @@ public class MainActivity extends Activity {
 		CSVparser masterList = null;
 		Drug drug = null;
 		String type = null;
-		
+
 		//Kelvin's changes begin (below)---------------------------------------
-		if (toParse) {
+		if (settings.getBoolean("toParse", true)) {
 			masterList = new CSVparser();
 			System.out.println("initparser");
-			masterList.parseFormulary(openFileInput("formulary.csv"));
-			//masterList.parseFormulary(assetManager.open("formulary.csv"));
-			System.out.println("formularyparsed");
-			masterList.parseExcluded(openFileInput("excluded.csv"));
-			System.out.println("excludedparsed");
-			masterList.parseRestricted(openFileInput("restricted.csv"));
+			if (settings.getBoolean("filesDownloaded", false)){
+				System.out.println("parser from updated files");
+				masterList.parseFormulary(openFileInput("formularyUpdated.csv"));
+				System.out.println("formularyparsed");
+				masterList.parseExcluded(openFileInput("excludedUpdated.csv"));
+				System.out.println("excludedparsed");
+				masterList.parseRestricted(openFileInput("restrictedUpdated.csv"));
+				System.out.println("parsingdidntbreak");
+			}
+			else{
+				System.out.println("parser from default files");
+				masterList.parseFormulary(assetManager.open("formulary.csv"));
+				System.out.println("formularyparsed");
+				masterList.parseExcluded(assetManager.open("excluded.csv"));
+				System.out.println("excludedparsed");
+				masterList.parseRestricted(assetManager.open("restricted.csv"));
+			}
 			System.out.println("parsingdidntbreak");
 
 			genericList = masterList.getListByGeneric();
 			brandList = masterList.getListByBrand();
-			
+
 			System.out.println("madelists");
-			toParse = false;
+			editor.putBoolean("toParse", false);
+			// Commit the edits!
+			editor.commit();
 		}
 
 		if(genericList.containsGenericName(searchInput)){
