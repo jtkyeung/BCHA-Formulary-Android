@@ -1,7 +1,9 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -33,7 +35,7 @@ public class MainActivity extends Activity {
 	public AssetManager assetManager;
 	private Boolean toParse = true;
 	private boolean wifiIsOn;
-	private boolean updateNeeded;
+	private boolean updateNeeded = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +44,30 @@ public class MainActivity extends Activity {
 		getActionBar().hide();
 
 		assetManager = getAssets();
-		FileInputStream fis=null;;
-		char currVersion;
+		FileInputStream fis=null;
+		String currVersion;
+		
 		//checks if files need update
 		DownloadTask fileVersion = new DownloadTask(MainActivity.this, "fileVersion.txt");
 
 		try {
 			fis = openFileInput("fileVersion.txt");
-			currVersion = (char)fis.read();
-			
-//			fileVersion = (DownloadTask) fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1");
-			fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+			String line = reader.readLine();
+			currVersion = line;
+			System.out.println("current version is " + line);
+//			currVersion = (char)fis.read();
 			fis.close();
+//			fileVersion = (DownloadTask) fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1");
+			fileVersion.execute("https://www.dropbox.com/s/hi7kvhoqdtzncsg/update.txt?dl=1").get(); //get() waits for a return
+			
 			fis = openFileInput("fileVersion.txt");
-			System.out.println("currVersion is "+ currVersion + " newVersion is " + ((char)fis.read()));
-			char newVersion = (char) fis.read();
-			if(currVersion != newVersion){
+			reader = new BufferedReader(new InputStreamReader(fis));
+			line = reader.readLine();
+			String newVersion =line;
+			System.out.println("currVersion is "+ currVersion + " newVersion is " + newVersion);
+			
+			if(!(currVersion.equals(newVersion))){
 				updateNeeded = true;
 				System.out.println("We need an update!");
 				//wifi check
@@ -72,7 +82,7 @@ public class MainActivity extends Activity {
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
 					downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
 					wifiIsOn = true;
-					System.out.println("filesdownloaded");
+//					System.out.println("filesdownloaded");
 				}
 				else{ //if wifi is off
 					Toast.makeText(this, "A version update is available, please connect to wi-fi "
@@ -85,15 +95,15 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		} 
 		catch (Exception e){
-			currVersion = '0'; //TODO change later
+			currVersion = "-2"; //TODO change later
 		}
 		finally {
-		}
 		try {
 			if (fis != null)
 				fis.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
+		}
 		}
 }
 

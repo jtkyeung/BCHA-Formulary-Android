@@ -113,11 +113,12 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 	    @Override
 	    protected void onPostExecute(String result) {
 	        mWakeLock.release();
-	        if (result != null){
+	        if (result == null){
 	            Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
-	        	System.out.println(result);
+//	        	
 	        } else {
 	            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+	            System.out.println(result);
 	        }
 	    }
 	    
