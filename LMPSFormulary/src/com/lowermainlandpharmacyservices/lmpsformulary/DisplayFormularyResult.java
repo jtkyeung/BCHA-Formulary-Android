@@ -18,29 +18,56 @@ public class DisplayFormularyResult extends Activity {
 		setContentView(R.layout.activity_display_formulary_result);
 		getActionBar().hide();
 		Intent intent = getIntent();
+		String type = intent.getStringExtra(MainActivity.EXTRA_TYPE);
+		String name = "";
+		ArrayList<String> otherNames;
+		String otherNamesAsString = "";
+		String genericbrandtitle = "";
 		
-		//Generic Name
-	    String genericName = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
+		if (type.equals("Generic")) {
+			genericbrandtitle = "Brand Names:";
+			name = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
+			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_BRANDNAME);
+			System.out.println("gothere");
+			
+			for (String s: otherNames) {
+				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+			}
+
+
+		} else if (type.equals("Brand")) {
+			genericbrandtitle = "Generic Names:";
+			name = intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
+			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_GENERICNAME);
+			
+			for (String s: otherNames) {
+				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+			}
+		
+		}
+		//Search Name
 		TextView genericNameTextView = (TextView) findViewById(R.id.formulary_drug_genericname);
-	    genericNameTextView.setText(genericName);
-	    genericNameTextView.setTypeface(null, Typeface.BOLD);
+		genericNameTextView.setText(name);
+		genericNameTextView.setTypeface(null, Typeface.BOLD);
+
+		//Other Names
+	    TextView nameHeaderTextView = (TextView) findViewById(R.id.generic_or_brand);
+	    nameHeaderTextView.setText(genericbrandtitle);
+	    
+		TextView brandNameTextView = (TextView) findViewById(R.id.formulary_brandnames);
+		brandNameTextView.setText(otherNamesAsString);
+		brandNameTextView.setTextSize(20);
 		
-	    //Brand Names
-	    String brandNames = "\t" + "\t" + intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
-	    TextView brandNameTextView = (TextView) findViewById(R.id.formulary_brandnames);
-	    brandNameTextView.setText(brandNames);
-	    brandNameTextView.setTextSize(20);
-	    
-	    // Create strength text view
-	    ArrayList<String> input = intent.getStringArrayListExtra(MainActivity.EXTRA_STRENGTHS);
-	    String strengths = "";
-	    for(String s: input) {
-	    	 strengths += "\t" + "\t" + "- " + s + "\n";
-	    }
-	    
-	    TextView strengthTextView = (TextView) findViewById(R.id.formulary_strength);
-	    strengthTextView.setText(strengths);
-	    strengthTextView.setTextSize(20);
+		// Create strength text view
+		ArrayList<String> input = intent.getStringArrayListExtra(MainActivity.EXTRA_STRENGTHS);
+		String strengths = "";
+		for(String s: input) {
+			strengths += "\t" + "\t" + "- " + s + "\n";
+		}
+
+		TextView strengthTextView = (TextView) findViewById(R.id.formulary_strength);
+		strengthTextView.setText(strengths);
+		strengthTextView.setTextSize(20);
 	}
 
 	@Override

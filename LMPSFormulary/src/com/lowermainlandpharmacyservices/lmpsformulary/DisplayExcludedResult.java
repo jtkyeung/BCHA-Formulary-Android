@@ -1,5 +1,7 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,11 +20,36 @@ public class DisplayExcludedResult extends Activity {
 		getActionBar().hide();
 		
 		Intent intent = getIntent();
+		String type = intent.getStringExtra(MainActivity.EXTRA_TYPE);
+		String name = "";
+		ArrayList<String> otherNames;
+		String otherNamesAsString = "";
+		String genericbrandtitle = "";
 		
-		//Generic Name
-	    String genericName = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
+		if (type.equals("Generic")) {
+			genericbrandtitle = "Brand Names:";
+			name = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
+			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_BRANDNAME);
+			System.out.println("gothere");
+
+			for (String s: otherNames) {
+				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+			}
+
+		} else if (type.equals("Brand")) {
+			genericbrandtitle = "Generic Names:";
+			name = intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
+			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_GENERICNAME);
+			
+			for (String s: otherNames) {
+				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+			}
+		
+		}
+		
+		//Search Name
 		TextView genericNameTextView = (TextView) findViewById(R.id.excluded_drug_genericname);
-	    genericNameTextView.setText(genericName);
+	    genericNameTextView.setText(name);
 	    genericNameTextView.setTypeface(null, Typeface.BOLD);
 	    
 	    TextView statusTextView = (TextView) findViewById(R.id.excluded);
@@ -31,10 +58,12 @@ public class DisplayExcludedResult extends Activity {
 	    statusTextView.setTextColor(Color.parseColor("#CC0000"));
 	    statusTextView.setTypeface(null, Typeface.BOLD);
 		
-	    //Brand Names
-	    String brandNames = "\t" + "\t" + intent.getStringExtra(MainActivity.EXTRA_BRANDNAME);
+	    //Other Names
+	    TextView nameHeaderTextView = (TextView) findViewById(R.id.generic_or_brand);
+	    nameHeaderTextView.setText(genericbrandtitle);
+	    
 	    TextView brandNameTextView = (TextView) findViewById(R.id.excluded_brandnames);
-	    brandNameTextView.setText(brandNames);
+	    brandNameTextView.setText(otherNamesAsString);
 	    brandNameTextView.setTextSize(20);
 	}
 

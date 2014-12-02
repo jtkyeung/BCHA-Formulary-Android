@@ -1,9 +1,10 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
-public class RestrictedDrug extends Drug {
+
+public class GenericRestrictedDrug extends GenericDrug {
 	public StringBuilder criteria;
 
-	public RestrictedDrug(String genericName, String brandName, String criteria){
+	public GenericRestrictedDrug(String genericName, String brandName, String criteria){
         super(genericName, brandName, "Restricted");
 		this.criteria = new StringBuilder(criteria);
 	}
@@ -13,7 +14,7 @@ public class RestrictedDrug extends Drug {
 	}
 
     public void additionalCriteria(String extraCriteria){
-    	System.out.println(super.genericName+ " "+criteria +" "+ extraCriteria);
+//    	System.out.println(genericName+ " "+criteria +" "+ extraCriteria);
         this.criteria.insert(criteria.length(), (" "+extraCriteria));
     }
 }
