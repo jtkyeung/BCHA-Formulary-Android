@@ -253,8 +253,11 @@ public class MainActivity extends Activity {
 			}
 
 		} else {
-			Toast toast = Toast.makeText(getApplicationContext(), "Drug " + "(" + searchInput + ")" + " Not Found", Toast.LENGTH_SHORT);
-			toast.show();
+			Intent otherResult = new Intent(this, DisplayOtherResult.class);
+			otherResult.putExtra(EXTRA_INFO, searchInput);
+			/*Toast toast = Toast.makeText(getApplicationContext(), "Drug " + "(" + searchInput + ")" + " Not Found", Toast.LENGTH_SHORT);
+			toast.show();*/
+			startActivity(otherResult);
 		}
 
 	}
