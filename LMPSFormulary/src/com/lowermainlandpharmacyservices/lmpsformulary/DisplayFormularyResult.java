@@ -28,6 +28,7 @@ public class DisplayFormularyResult extends Activity {
 			genericbrandtitle = "Brand Names:";
 			name = intent.getStringExtra(MainActivity.EXTRA_GENERICNAME);
 			otherNames = intent.getStringArrayListExtra(MainActivity.EXTRA_BRANDNAME);
+			System.out.println("brand names total = " + otherNames.size());
 			System.out.println("gothere");
 			
 			for (String s: otherNames) {
