@@ -102,7 +102,7 @@ public class CSVparser {
 								}
 								else{
 									brandList.addBrandDrug(new BrandExcludedDrug(nextLine[0], additionalBrand, nextLine[2]));
-									genericList.addGenericDrug(new GenericExcludedDrug(nextLine[0], "", nextLine[2]));
+									genericList.addGenericDrug(new GenericExcludedDrug(nextLine[0], nextLine[1], nextLine[2]));
 									lastGenericDrug = nextLine[0]; //sets the last drug if next line is extra criteria
 								}
 							}
@@ -116,7 +116,7 @@ public class CSVparser {
 							else{
 								brandList.addBrandDrug(new BrandExcludedDrug(nextLine[0], nextLine[1], nextLine[2]));
 								lastBrandDrug = nextLine[1];
-								genericList.addGenericDrug(new GenericExcludedDrug(nextLine[0], "", nextLine[2]));
+								genericList.addGenericDrug(new GenericExcludedDrug(nextLine[0], nextLine[1], nextLine[2]));
 								lastGenericDrug = nextLine[0]; //sets the last drug if next line is extra criteria
 							}
 						}
@@ -167,7 +167,7 @@ public class CSVparser {
 								}
 								else{
 									brandList.addBrandDrug(new BrandRestrictedDrug(nextLine[0], additionalBrand, nextLine[2]));
-									genericList.addGenericDrug(new GenericRestrictedDrug(nextLine[0], "", nextLine[2]));
+									genericList.addGenericDrug(new GenericRestrictedDrug(nextLine[0], nextLine[1], nextLine[2]));
 									
 								}
 							}
@@ -182,7 +182,7 @@ public class CSVparser {
 							else{
 								brandList.addBrandDrug(new BrandRestrictedDrug(nextLine[0], nextLine[1], nextLine[2]));
 								lastBrandDrug = nextLine[1];
-								genericList.addGenericDrug(new GenericRestrictedDrug(nextLine[0], "", nextLine[2]));
+								genericList.addGenericDrug(new GenericRestrictedDrug(nextLine[0], nextLine[1], nextLine[2]));
 								lastGenericDrug = nextLine[0]; //sets the last drug if next line is extra criteria
 							}
 						}
