@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -17,6 +18,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,9 +40,8 @@ public class MainActivity extends Activity {
 	SharedPreferences.Editor editor;
 
 	public AssetManager assetManager;
-	private Boolean toParse = true;
 	private boolean isConnected;
-	private boolean updateNeeded = false;
+	AutoCompleteTextView autocompletetextview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,6 @@ public class MainActivity extends Activity {
 			System.out.println("currVersion is "+ currVersion + " newVersion is " + newVersion);
 
 			if(!(currVersion.equals(newVersion))){
-				updateNeeded = true;
 				System.out.println("We need an update!");
 				Toast.makeText(this, "File update in progress", Toast.LENGTH_LONG).show();
 //				//wifi check
@@ -186,6 +187,19 @@ public class MainActivity extends Activity {
 
 			genericList = masterList.getListByGeneric();
 			brandList = masterList.getListByBrand();
+			
+			//predictive text-------------------------------------------
+			
+			//make master nameList
+			ArrayList<String> masterDrugNameList = genericList.getGenericNameList();
+			masterDrugNameList.addAll(brandList.getBrandNameList());
+			
+			autocompletetextview = (AutoCompleteTextView) findViewById(R.id.search_input);
+			
+			ArrayAdapter<String> adapter = new ArrayAdapter<String> (this,android.R.layout.select_dialog_item, masterDrugNameList);
+			  autocompletetextview.setThreshold(1);
+		      autocompletetextview.setAdapter(adapter);	
+			//predictive text end---------------------------------------
 
 			System.out.println("madelists");
 			editor.putBoolean("toParse", false);

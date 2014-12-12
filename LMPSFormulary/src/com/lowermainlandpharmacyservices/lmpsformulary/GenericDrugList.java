@@ -1,5 +1,6 @@
 package com.lowermainlandpharmacyservices.lmpsformulary;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GenericDrugList {
@@ -43,6 +44,14 @@ public class GenericDrugList {
 	public boolean containsGenericName(String drug) {
 
 		return genericDrugList.containsKey(drug);
+	}
+	
+	public ArrayList<String> getGenericNameList(){
+		ArrayList<String> nameList = new ArrayList<String>();
+		for(String genericName: genericDrugList.keySet()){
+			nameList.add(genericName);
+		}
+		return nameList;
 	}
 
 }
