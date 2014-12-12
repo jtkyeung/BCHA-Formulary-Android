@@ -155,8 +155,7 @@ public class MainActivity extends Activity {
 		CSVparser masterList = null;
 		Drug drug = null;
 		String type = null;
-
-		//Kelvin's changes begin (below)---------------------------------------
+		
 		if (settings.getBoolean("toParse", true)) {
 			masterList = new CSVparser();
 			System.out.println("initparser");
@@ -193,7 +192,7 @@ public class MainActivity extends Activity {
 			type = "Generic";
 			System.out.println("checkdrug");
 
-			if (drug.getStatus() == "Formulary") { 
+			if (drug.getStatus().equals("Formulary")) { 
 				Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
 				GenericFormularyDrug fdrug = (GenericFormularyDrug) drug;
 				formularyResult.putExtra(EXTRA_GENERICNAME, fdrug.getGenericName());
@@ -203,7 +202,7 @@ public class MainActivity extends Activity {
 				startActivity(formularyResult);
 				System.out.println("startedactivity");
 
-			} else if (drug.getStatus() == "Restricted") {
+			} else if (drug.getStatus().equals("Restricted")) {
 				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
 				GenericRestrictedDrug rdrug = (GenericRestrictedDrug) drug;
 				restrictedResult.putExtra(EXTRA_GENERICNAME, rdrug.getGenericName());
@@ -212,7 +211,7 @@ public class MainActivity extends Activity {
 				restrictedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(restrictedResult);
 
-			} else if (drug.getStatus() == "Excluded") {
+			} else if (drug.getStatus().equals("Excluded")) {
 				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
 				GenericExcludedDrug edrug = (GenericExcludedDrug) drug;
 				excludedResult.putExtra(EXTRA_GENERICNAME, edrug.getGenericName());
@@ -225,7 +224,7 @@ public class MainActivity extends Activity {
 			drug = brandList.getBrandDrug(searchInput);
 			type = "Brand";
 
-			if (drug.getStatus() == "Formulary") { 
+			if (drug.getStatus().equals("Formulary")) { 
 				Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
 				BrandFormularyDrug fdrug = (BrandFormularyDrug) drug;
 				formularyResult.putExtra(EXTRA_GENERICNAME, fdrug.getGenericNames());
@@ -234,7 +233,7 @@ public class MainActivity extends Activity {
 				formularyResult.putExtra(EXTRA_TYPE, type);
 				startActivity(formularyResult);
 
-			} else if (drug.getStatus() == "Restricted") {
+			} else if (drug.getStatus().equals("Restricted")) {
 				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
 				BrandRestrictedDrug rdrug = (BrandRestrictedDrug) drug;
 				restrictedResult.putStringArrayListExtra(EXTRA_GENERICNAME, rdrug.getGenericNames());
@@ -243,7 +242,7 @@ public class MainActivity extends Activity {
 				restrictedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(restrictedResult);
 
-			} else if (drug.getStatus() == "Excluded") {
+			} else if (drug.getStatus().equals("Excluded")) {
 				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
 				BrandExcludedDrug edrug = (BrandExcludedDrug) drug;
 				excludedResult.putStringArrayListExtra(EXTRA_GENERICNAME, edrug.getGenericNames());
@@ -260,6 +259,11 @@ public class MainActivity extends Activity {
 			startActivity(otherResult);
 		}
 
+	}
+	
+	public void displayHelp(View view) throws Exception {
+		Intent helpResult = new Intent(this, HelpActivity.class);
+		startActivity(helpResult);
 	}
 
 }

@@ -29,7 +29,7 @@ public class DisplayOtherResult extends Activity {
 	    inputView.setTypeface(null, Typeface.BOLD);
 		
 	    TextView descriptionView = (TextView) findViewById(R.id.description);
-	    descriptionView.setText("This drug appears to be a non-formulary drug. If you think this drug should be on the formulary, please check your spelling and try again." +  "\n" + "\n"+ "If you would like to view the full drug inventory, sorted alphabetically by status, download using the following button:" + "\n");
+	    descriptionView.setText("If a different formulary status was expected, please check your spelling and try again." +  "\n" + "\n"+ "If you would like to view the full drug inventory, sorted alphabetically by status, download using the following button:" + "\n");
 	}
 
 	@Override
