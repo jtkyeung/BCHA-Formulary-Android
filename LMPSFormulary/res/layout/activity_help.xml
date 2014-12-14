@@ -27,12 +27,57 @@
             <TextView
                 android:id="@+id/help_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"  />
+            
+            <TextView
+                android:id="@+id/help_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"  />
+            
+            <TextView
+                android:id="@+id/help_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"  />
+            
+            <TextView
+                android:id="@+id/help_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"  />
+           
+            <TextView
+                android:id="@+id/help_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"  />
+            
+            <TextView
+                android:id="@+id/mail_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="email"
+                android:linksClickable="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/maillink"/>
+                
 
             <TextView
                 android:id="@+id/footer"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="15dp"  />
         </LinearLayout>
     </ScrollView>
 
