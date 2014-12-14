@@ -82,15 +82,13 @@ public class MainActivity extends Activity {
 			if(!(currVersion.equals(newVersion))){
 				System.out.println("We need an update!");
 				Toast.makeText(this, "File update in progress", Toast.LENGTH_LONG).show();
-//				//wifi check
-//				WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-				//network check
+
 				ConnectivityManager cm =
 				        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 				 
 				NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 				isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-				//if wifi is on	
+				//if network is on	
 				if(isConnected){
 					// execute this when the downloader must be fired
 					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
@@ -219,54 +217,8 @@ public class MainActivity extends Activity {
 
 		EditText editText = (EditText) findViewById(R.id.search_input);
 		String searchInput = editText.getText().toString().toUpperCase().trim();
-//		CSVparser masterList = null;
 		Drug drug = null;
 		String type = null;
-
-//		//Kelvin's changes begin (below)---------------------------------------
-//		if (settings.getBoolean("toParse", true)) {
-//			masterList = new CSVparser();
-//			System.out.println("initparser");
-//			if (settings.getBoolean("filesDownloaded", false)){
-//				System.out.println("parser from updated files");
-//				masterList.parseFormulary(openFileInput("formularyUpdated.csv"));
-//				System.out.println("formularyparsed");
-//				masterList.parseExcluded(openFileInput("excludedUpdated.csv"));
-//				System.out.println("excludedparsed");
-//				masterList.parseRestricted(openFileInput("restrictedUpdated.csv"));
-//				System.out.println("parsingdidntbreak");
-//			}
-//			else{
-//				System.out.println("parser from default files");
-//				masterList.parseFormulary(assetManager.open("formulary.csv"));
-//				System.out.println("formularyparsed");
-//				masterList.parseExcluded(assetManager.open("excluded.csv"));
-//				System.out.println("excludedparsed");
-//				masterList.parseRestricted(assetManager.open("restricted.csv"));
-//			}
-//			System.out.println("parsingdidntbreak");
-//
-//			genericList = masterList.getListByGeneric();
-//			brandList = masterList.getListByBrand();
-//			
-//			//predictive text-------------------------------------------
-//			
-//			//make master nameList
-//			ArrayList<String> masterDrugNameList = genericList.getGenericNameList();
-//			masterDrugNameList.addAll(brandList.getBrandNameList());
-//			
-//			autocompletetextview = (AutoCompleteTextView) findViewById(R.id.search_input);
-//			
-//			ArrayAdapter<String> adapter = new ArrayAdapter<String> (this,android.R.layout.select_dialog_item, masterDrugNameList);
-//			  autocompletetextview.setThreshold(1);
-//		      autocompletetextview.setAdapter(adapter);	
-//			//predictive text end---------------------------------------
-//
-//			System.out.println("madelists");
-//			editor.putBoolean("toParse", false);
-//			// Commit the edits!
-//			editor.commit();
-//		}
 
 		if(genericList.containsGenericName(searchInput)){
 			drug = genericList.getGenericDrug(searchInput);
