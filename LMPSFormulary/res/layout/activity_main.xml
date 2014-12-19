@@ -18,26 +18,37 @@
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:text="@string/title"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
             android:text="@string/formulary"
+            android:textColor="#FFFFFF"
             android:textSize="35sp"
-            android:textStyle="bold" 
-            android:textColor="#FFFFFF"/>
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/help_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@null"
+        android:contentDescription="@string/button_description_help"
+        android:onClick="displayHelp"
+        android:src="@drawable/text2993" />
 
     <EditText
         android:id="@+id/search_input"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_gravity="center"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/edittext_rounded_corners"
         android:hint="@string/search_hint"
         android:inputType="text"
