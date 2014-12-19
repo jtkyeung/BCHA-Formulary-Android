@@ -23,7 +23,7 @@ public class HelpActivity extends Activity {
 		resultscont += "\t" + "- Restricted drugs: restriction criteria for approved indications, populations, patient care areas, and prescribers in FH" + "\n";
 		resultscont += "\t" + "- Excluded drugs: reason for BCHA provincial formulary exclusion";
 		
-		String update = "The app will auto-update every time it is open and connected to the Internet via a wifi connection and does not rely on a network connection for searching." + "\n" + "\n";
+		String update = "The app will auto-update every time it is open and connected to the Internet." + "\n" + "\n";
 		String searchtips = "Search tips:";
 		String tipscont = "\t" + "- Combination drug products can be found by searching for any individual component alone or for the brand name of the entire product." + "\n";
 		tipscont += "\t" + "- A full list of all vaccines will appear when you search for \" vaccine\". Similarly for \"multivitamins\" and \"lipid\"" + "\n";
