@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
 	public final static String EXTRA_GENERICNAME = "com.lowermainlandpharmacyservices.MainActivity.GENERICNAME";
 	public final static String EXTRA_BRANDNAME = "com.lowermainlandpharmacyservices.MainActivity.BRANDNAME";
 	public final static String EXTRA_RESTRICTIONS = "com.lowermainlandpharmacyservices.MainActivity.RESTRICTIONS";
+	public final static String EXTRA_EXCLUDED_REASON = "com.lowermainlandpharmacyservices.MainActivity.EXCLUDED_REASON";
 	public final static String EXTRA_TYPE = "com.lowermainlandpharmacyservices.MainActivity.TYPE";
 
 	// declare the dialog as a member field of your activity
@@ -93,7 +94,8 @@ public class MainActivity extends Activity {
 					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
 					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1").get();
 					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
-					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
+					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get(); //local
+//					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
 					downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1").get();
 
@@ -222,6 +224,7 @@ public class MainActivity extends Activity {
 				GenericExcludedDrug edrug = (GenericExcludedDrug) drug;
 				excludedResult.putExtra(EXTRA_GENERICNAME, edrug.getGenericName());
 				excludedResult.putStringArrayListExtra(EXTRA_BRANDNAME, edrug.getBrandNames());
+				excludedResult.putExtra(EXTRA_EXCLUDED_REASON, edrug.getCriteria());
 				excludedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(excludedResult);
 			}
@@ -253,6 +256,7 @@ public class MainActivity extends Activity {
 				BrandExcludedDrug edrug = (BrandExcludedDrug) drug;
 				excludedResult.putStringArrayListExtra(EXTRA_GENERICNAME, edrug.getGenericNames());
 				excludedResult.putExtra(EXTRA_BRANDNAME, edrug.getBrandName());
+				excludedResult.putExtra(EXTRA_EXCLUDED_REASON, edrug.getCriteria());
 				excludedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(excludedResult);
 			}

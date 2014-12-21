@@ -65,6 +65,12 @@ public class DisplayExcludedResult extends Activity {
 	    TextView brandNameTextView = (TextView) findViewById(R.id.excluded_brandnames);
 	    brandNameTextView.setText(otherNamesAsString);
 	    brandNameTextView.setTextSize(20);
+	    
+	    //Restriction Criteria
+	    String criteria = intent.getStringExtra(MainActivity.EXTRA_EXCLUDED_REASON);
+	    TextView criteriaTextView = (TextView) findViewById(R.id.exclusion_criteria);
+	    criteriaTextView.setText(criteria);
+	    criteriaTextView.setTextSize(15);
 	}
 
 	@Override
