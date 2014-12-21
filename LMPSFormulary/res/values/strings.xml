@@ -25,5 +25,9 @@
     <string name="spelling">Spelling</string>
     <string name="drugnotfound">Drug Not Found</string>
     <string name="display_table">Download Formulary</string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="button_description_help">Help Button</string>
+    <string name="helptitle">About This App</string>
+    <string name="maillink"><a href="mailto:anthony.tung@fraserhealth.ca?subject=formulary app question">anthony.tung@fraserhealth.ca</a></string>
 
 </resources>

@@ -7,9 +7,9 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
-    
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.INTERNET" /> 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -31,7 +31,7 @@
             android:name=".DisplayFormularyResult"
             android:label="@string/title_activity_display_formulary_result" >
         </activity>
-         <activity
+        <activity
             android:name=".DisplayRestrictedResult"
             android:label="@string/title_activity_display_restricted_result" >
         </activity>
@@ -39,9 +39,13 @@
             android:name=".DisplayExcludedResult"
             android:label="@string/title_activity_display_excluded_result" >
         </activity>
-         <activity
+        <activity
             android:name=".DisplayOtherResult"
             android:label="@string/title_activity_display_other_result" >
+        </activity>
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help" >
         </activity>
     </application>
 
