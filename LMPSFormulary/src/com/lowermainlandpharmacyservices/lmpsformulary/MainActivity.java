@@ -2,8 +2,12 @@ package com.lowermainlandpharmacyservices.lmpsformulary;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -17,6 +21,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,10 +43,10 @@ public class MainActivity extends Activity {
 	SharedPreferences settings;
 	SharedPreferences.Editor editor;
 
+	CSVparser masterList = null;
 	public AssetManager assetManager;
-	private Boolean toParse = true;
 	private boolean isConnected;
-	private boolean updateNeeded = false;
+	AutoCompleteTextView autocompletetextview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +83,15 @@ public class MainActivity extends Activity {
 			System.out.println("currVersion is "+ currVersion + " newVersion is " + newVersion);
 
 			if(!(currVersion.equals(newVersion))){
-				updateNeeded = true;
 				System.out.println("We need an update!");
 				Toast.makeText(this, "File update in progress", Toast.LENGTH_LONG).show();
-//				//wifi check
-//				WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-				//network check
+
 				ConnectivityManager cm =
-				        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-				 
+						(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
 				NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 				isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-				//if wifi is on	
+				//if network is on	
 				if(isConnected){
 					// execute this when the downloader must be fired
 					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
@@ -105,7 +108,7 @@ public class MainActivity extends Activity {
 					editor.commit();
 					Toast.makeText(this, "Update completed", Toast.LENGTH_LONG).show();
 				}
-				else{ //if wifi is off
+				else{ //if network is off
 					Toast.makeText(this, "A version update is available, please connect to wi-fi "
 							+ "and restart to app to update", Toast.LENGTH_LONG).show();
 				}
@@ -126,6 +129,70 @@ public class MainActivity extends Activity {
 			}
 			//delete after
 			editor.putBoolean("toParse", true);
+			editor.commit();
+		}
+
+		//parsing begins----------------------------------------------------------------------
+		if (settings.getBoolean("toParse", true)) {
+			masterList = new CSVparser();
+			System.out.println("initparser");
+			try{
+				if (settings.getBoolean("filesDownloaded", false)){
+					System.out.println("parser from updated files");
+					masterList.parseFormulary(openFileInput("formularyUpdated.csv"));
+					System.out.println("formularyparsed");
+					masterList.parseExcluded(openFileInput("excludedUpdated.csv"));
+					System.out.println("excludedparsed");
+					masterList.parseRestricted(openFileInput("restrictedUpdated.csv"));
+					System.out.println("parsingdidntbreak");
+				}
+				else{
+					System.out.println("parser from default files");
+					masterList.parseFormulary(assetManager.open("formulary.csv"));
+					System.out.println("formularyparsed");
+					masterList.parseExcluded(assetManager.open("excluded.csv"));
+					System.out.println("excludedparsed");
+					masterList.parseRestricted(assetManager.open("restricted.csv"));
+				}
+				System.out.println("parsingdidntbreak");
+			}
+			catch (FileNotFoundException e){
+				Toast.makeText(this, "An error has caused this app to malfunction. "
+						+ "Please ensure there is enough memory on the phone, network is "
+						+ "present or re-install the app", Toast.LENGTH_LONG).show();
+				e.printStackTrace();
+			} catch (IOException e) {
+				Toast.makeText(this, "An error has caused this app to malfunction. "
+						+ "Please ensure there is enough memory on the phone, network is "
+						+ "present or re-install the app", Toast.LENGTH_LONG).show();
+				e.printStackTrace();
+			}
+
+			genericList = masterList.getListByGeneric();
+			brandList = masterList.getListByBrand();
+			//parsing ends----------------------------------------------
+			//predictive text-------------------------------------------
+
+			//make master nameList
+			ArrayList<String> masterDrugNameList = genericList.getGenericNameList(); //add all the generic names
+			ArrayList<String> brandNameList = brandList.getBrandNameList();
+			for(String brandName:brandNameList){
+				if(!(masterDrugNameList.contains(brandName))){ //only add brand names if they don't already appear
+					masterDrugNameList.add(brandName);
+				}
+			}
+			Collections.sort(masterDrugNameList); //sort the arraylist of names alphabetically
+			
+			autocompletetextview = (AutoCompleteTextView) findViewById(R.id.search_input);
+
+			ArrayAdapter<String> adapter = new ArrayAdapter<String> (this,android.R.layout.select_dialog_item, masterDrugNameList);
+			autocompletetextview.setThreshold(1);
+			autocompletetextview.setAdapter(adapter);	
+			//predictive text end---------------------------------------
+
+			System.out.println("madelists");
+			editor.putBoolean("toParse", false);
+			// Commit the edits!
 			editor.commit();
 		}
 	}
@@ -159,41 +226,8 @@ public class MainActivity extends Activity {
 
 		EditText editText = (EditText) findViewById(R.id.search_input);
 		String searchInput = editText.getText().toString().toUpperCase().trim();
-		CSVparser masterList = null;
 		Drug drug = null;
 		String type = null;
-
-		//Kelvin's changes begin (below)---------------------------------------
-		if (settings.getBoolean("toParse", true)) {
-			masterList = new CSVparser();
-			System.out.println("initparser");
-			if (settings.getBoolean("filesDownloaded", false)){
-				System.out.println("parser from updated files");
-				masterList.parseFormulary(openFileInput("formularyUpdated.csv"));
-				System.out.println("formularyparsed");
-				masterList.parseExcluded(openFileInput("excludedUpdated.csv"));
-				System.out.println("excludedparsed");
-				masterList.parseRestricted(openFileInput("restrictedUpdated.csv"));
-				System.out.println("parsingdidntbreak");
-			}
-			else{
-				System.out.println("parser from default files");
-				masterList.parseFormulary(assetManager.open("formulary.csv"));
-				System.out.println("formularyparsed");
-				masterList.parseExcluded(assetManager.open("excluded.csv"));
-				System.out.println("excludedparsed");
-				masterList.parseRestricted(assetManager.open("restricted.csv"));
-			}
-			System.out.println("parsingdidntbreak");
-
-			genericList = masterList.getListByGeneric();
-			brandList = masterList.getListByBrand();
-
-			System.out.println("madelists");
-			editor.putBoolean("toParse", false);
-			// Commit the edits!
-			editor.commit();
-		}
 
 		if(genericList.containsGenericName(searchInput)){
 			drug = genericList.getGenericDrug(searchInput);

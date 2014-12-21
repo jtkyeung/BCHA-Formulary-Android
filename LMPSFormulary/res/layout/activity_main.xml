@@ -32,7 +32,7 @@
             android:textColor="#FFFFFF"/>
     </LinearLayout>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/search_input"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
@@ -41,8 +41,7 @@
         android:background="@drawable/edittext_rounded_corners"
         android:hint="@string/search_hint"
         android:inputType="text"
-        android:padding="5dp" >
-    </EditText>
+        android:padding="5dp" />
 
     <Button
         android:layout_width="wrap_content"
