@@ -98,7 +98,7 @@ public class MainActivity extends Activity {
 					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1").get();
 					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
 					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get(); //local
-//					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
+					//					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
 					downloadRestricted.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1").get();
 
@@ -182,7 +182,7 @@ public class MainActivity extends Activity {
 				}
 			}
 			Collections.sort(masterDrugNameList); //sort the arraylist of names alphabetically
-			
+
 			autocompletetextview = (AutoCompleteTextView) findViewById(R.id.search_input);
 
 			ArrayAdapter<String> adapter = new ArrayAdapter<String> (this,android.R.layout.select_dialog_item, masterDrugNameList);
@@ -303,6 +303,11 @@ public class MainActivity extends Activity {
 			startActivity(otherResult);
 		}
 
+	}
+
+	public void displayHelp(View view) throws Exception {
+		Intent helpResult = new Intent(this, HelpActivity.class);
+		startActivity(helpResult);
 	}
 
 }
