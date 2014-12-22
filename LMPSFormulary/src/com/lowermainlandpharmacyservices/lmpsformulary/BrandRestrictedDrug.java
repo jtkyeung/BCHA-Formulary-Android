@@ -18,11 +18,15 @@ public class BrandRestrictedDrug extends BrandDrug {
 //    	System.out.println(genericName+ " "+criteria +" "+ extraCriteria);
     	char character;
     	StringBuilder extraAddition = new StringBuilder();
+    	//add bullet
+    	if(!(extraCriteria.contains(":")|| extraCriteria.contains("OR"))){
+    		extraAddition.append("-   ");
+    	}
     	for (int i = 0; i < extraCriteria.length();i++){
     		character = extraCriteria.charAt(i);
 //    		if(!(Character.isAlphabetic(character) || (Character.isDigit(character))))
     		if(!(Character.isDefined(character) || Character.isIdentifierIgnorable(character)))
-    			extraAddition.append(' ');
+    			extraAddition.append(" ");
     		else{
     			extraAddition.append(extraCriteria.charAt(i));
     		}

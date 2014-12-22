@@ -17,6 +17,10 @@ public class GenericExcludedDrug extends GenericDrug {
 //	    	System.out.println(genericName+ " "+criteria +" "+ extraCriteria);
 	    	char character;
 	    	StringBuilder extraAddition = new StringBuilder();
+	    	//add bullet
+	    	if(!(extraCriteria.contains(":")|| extraCriteria.contains("OR"))){
+	    		extraAddition.append("-   ");
+	    	}
 	    	for (int i = 0; i < extraCriteria.length();i++){
 	    		character = extraCriteria.charAt(i);
 //	    		if(!(Character.isAlphabetic(character) || (Character.isDigit(character))))
