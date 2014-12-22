@@ -13,22 +13,16 @@ public class GenericExcludedDrug extends GenericDrug {
 		return criteria.toString();
 	}
 	
-	 public void additionalCriteria(String extraCriteria){
-//	    	System.out.println(genericName+ " "+criteria +" "+ extraCriteria);
-	    	char character;
+	 public void additionalCriteria(String extraCriteria){    	
 	    	StringBuilder extraAddition = new StringBuilder();
+	    	
 	    	//add bullet
-	    	if(!(extraCriteria.contains(":")|| extraCriteria.contains("OR"))){
+	    	if(!(extraCriteria.contains(":")|| extraCriteria.contains("OR")&&extraCriteria.length()==2)){
 	    		extraAddition.append("-   ");
 	    	}
+	    	
 	    	for (int i = 0; i < extraCriteria.length();i++){
-	    		character = extraCriteria.charAt(i);
-//	    		if(!(Character.isAlphabetic(character) || (Character.isDigit(character))))
-//	    		if(!(Character.isDefined(character) || Character.isIdentifierIgnorable(character)))
-//	    			extraAddition.append(' ');
-//	    		else{
 	    			extraAddition.append(extraCriteria.charAt(i));
-//	    		}
 	    	}
 	    	this.criteria.insert(criteria.length(), ("\n\n"+extraAddition.toString()));	
 	    }
