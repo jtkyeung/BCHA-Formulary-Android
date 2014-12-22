@@ -23,13 +23,13 @@ public class BrandExcludedDrug extends BrandDrug {
 	    	for (int i = 0; i < extraCriteria.length();i++){
 	    		character = extraCriteria.charAt(i);
 //	    		if(!(Character.isAlphabetic(character) || (Character.isDigit(character))))
-	    		if(!(Character.isDefined(character) || Character.isIdentifierIgnorable(character)))
-	    			extraAddition.append(' ');
-	    		else{
+//	    		if(!(Character.isDefined(character) || Character.isIdentifierIgnorable(character)))
+//	    			extraAddition.append(' ');
+//	    		else{
 	    			extraAddition.append(extraCriteria.charAt(i));
-	    		}
+//	    		}
 	    	}
-	    	this.criteria.insert(criteria.length(), ("\n "+extraAddition.toString()));	
+	    	this.criteria.insert(criteria.length(), ("\n\n"+extraAddition.toString()));	
 	    }
 
 }
