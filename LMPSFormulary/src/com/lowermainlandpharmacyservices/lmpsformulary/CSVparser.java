@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import com.opencsv.CSVReader;
 
@@ -69,7 +70,14 @@ public class CSVparser {
 	}
 
 	public void parseExcluded(InputStream csvFile){
-		BufferedReader dataFile = new BufferedReader(new InputStreamReader(csvFile));
+		BufferedReader dataFile;
+		try {
+			dataFile = new BufferedReader(new InputStreamReader(csvFile,"UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			dataFile = new BufferedReader(new InputStreamReader(csvFile));
+			e1.printStackTrace();
+			System.out.println("Can not read");
+		}
 		CSVReader reader = null;
 		try {
 			reader = new CSVReader(dataFile);
@@ -79,7 +87,6 @@ public class CSVparser {
 
 			reader.readNext(); //title line
 			while ((nextLine = reader.readNext()) != null) 	{
-				System.out.println(nextLine[0]);
 				//extraline for restricted criteria
 				if((nextLine[0].equals("")) && !(nextLine[2].equals(""))){
 					((GenericExcludedDrug)genericList.getGenericDrug(lastGenericDrug)).additionalCriteria(nextLine[2]);
@@ -135,7 +142,13 @@ public class CSVparser {
 	}
 
 	public void parseRestricted(InputStream csvFile){
-		BufferedReader dataFile = new BufferedReader(new InputStreamReader(csvFile));
+		BufferedReader dataFile;
+		try {
+			dataFile = new BufferedReader(new InputStreamReader(csvFile,"UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			dataFile = new BufferedReader(new InputStreamReader(csvFile));
+			e1.printStackTrace();
+		}
 		CSVReader reader = null;
 		try {
 			reader = new CSVReader(dataFile);
