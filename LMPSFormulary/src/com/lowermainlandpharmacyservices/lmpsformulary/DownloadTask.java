@@ -12,9 +12,9 @@ import android.os.PowerManager;
 import android.widget.Toast;
 
 public class DownloadTask extends AsyncTask<String, Integer, String> {
-	 	private Context context;
+	 	protected Context context;
 	 	private String filename;
-	    private PowerManager.WakeLock mWakeLock;
+	    protected PowerManager.WakeLock mWakeLock;
 
 	    public DownloadTask(Context context, String filename) {
 	        this.context = context;

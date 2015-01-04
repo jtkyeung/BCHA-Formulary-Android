@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -64,7 +65,19 @@ public class MainActivity extends Activity {
 		//checks if files need update
 		
 		//creates new file called fileVersion.txt in MainActivity if none exists or calls existing one
-		DownloadTask fileVersion = new DownloadTask(MainActivity.this, "fileVersion.txt");
+		DownloadTask fileVersion = new DownloadTask(MainActivity.this, "fileVersion.txt"){
+			 @Override
+			    protected void onPostExecute(String result) {
+			        mWakeLock.release();
+			        if (result != null){
+			            Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
+			        	System.out.println(result);
+			        } else {
+			            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+			            System.out.println("update file downloaded");
+			        }
+			    }
+		};
 		settings = getApplicationContext().getSharedPreferences("foo", 0);
 		editor = settings.edit();
 		try {
@@ -82,7 +95,7 @@ public class MainActivity extends Activity {
 			}
 			
 			//grab the latest version number from dropbox and save to fileVersion
-			fileVersion.execute("https://www.dropbox.com/s/4cvo08xnmlg7qr6/update.txt?dl=1").get(); //get() waits for a return
+			fileVersion.execute("https://www.dropbox.com/s/4cvo08xnmlg7qr6/update.txt?dl=1").get(5000, TimeUnit.MILLISECONDS); //get() waits for a return
 			
 			fis = openFileInput("fileVersion.txt");
 			reader = new BufferedReader(new InputStreamReader(fis));
@@ -102,12 +115,49 @@ public class MainActivity extends Activity {
 				isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 				//if network is on, download files
 				if(isConnected){
+					System.out.println("files start downloading");
 					// execute following when the downloader must be fired
-					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
+					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv"){
+						 @Override
+						    protected void onPostExecute(String result) {
+						        mWakeLock.release();
+						        if (result != null){
+						            Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
+						        	System.out.println(result);
+						        } else {
+						            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+						            System.out.println("formulary file downloaded");
+						        }
+						    }
+					};
 					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1").get();
-					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
+					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv"){
+						 @Override
+						    protected void onPostExecute(String result) {
+						        mWakeLock.release();
+						        if (result != null){
+						            Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
+						        	System.out.println(result);
+						        } else {
+						            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+						            System.out.println("excluded file downloaded");
+						        }
+						    }
+					};
 					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get(); //local
-					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
+					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv"){
+						 @Override
+						    protected void onPostExecute(String result) {
+						        mWakeLock.release();
+						        if (result != null){
+						            Toast.makeText(context,"Download error: "+result, Toast.LENGTH_LONG).show();
+						        	System.out.println(result);
+						        } else {
+						            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+						            System.out.println("restricted file downloaded");
+						        }
+						    }
+					};
 					downloadRestricted.execute("https://www.dropbox.com/s/n4so74xl4n7wbhy/restricted.csv?dl=1").get();
 					
 					// save "filesDownloaded" as true in shared preferences
