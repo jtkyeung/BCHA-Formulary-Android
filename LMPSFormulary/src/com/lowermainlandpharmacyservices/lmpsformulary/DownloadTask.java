@@ -106,6 +106,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 	        	System.out.println(result);
 	        } else {
 	            Toast.makeText(context,"File downloaded", Toast.LENGTH_SHORT).show();
+	            System.out.println("file downloaded");
 	        }
 	    }
 	    

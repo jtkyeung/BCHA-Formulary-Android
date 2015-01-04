@@ -37,10 +37,10 @@ DANAPAROID,ORGARAN,Restricted for prophylaxis and treatment of venous thromboemb
 DAPTOMYCIN,CUBICIN,Restricted to infections caused by gram positive organisms that are resistant to vancomycin and linezolid OR in patients intolerant to vancomycin and linezolid
 DARBEPOETIN,ARANESP,Restricted to indications outlined by BCPRA AND patients who are registered with BCPRA
 DEXMEDETOMIDINE,PRECEDEX,"Restricted to use in Intensive Care Unit, Cardiac Surgery Intensive Care Unit and High Acuity Unit for patients with the following criteria:"
-,,·         Post-operative cardiovascular/vascular surgery patients requiring mechanical ventilation OR
-,,"·         Patients who are being mechanically ventilated with confirmed delirium, and who are refractory, or have had an inadequate response, to a trial of propofol and/or antipsychotic agent OR"
-,,·             Patients in whom extubation is anticipated within 24-hours (i.e. approximate duration of dexmedetomidine use limited to 24 hours) OR
-,,·         Sedation for invasive procedures or awake fibre-optic intubation in critical care patients for whom other agents are not appropriate due to lack of efficacy or adverse effects
+,,Post-operative cardiovascular/vascular surgery patients requiring mechanical ventilation OR
+,,"Patients who are being mechanically ventilated with confirmed delirium, and who are refractory, or have had an inadequate response, to a trial of propofol and/or antipsychotic agent OR"
+,,Patients in whom extubation is anticipated within 24-hours (i.e. approximate duration of dexmedetomidine use limited to 24 hours) OR
+,,Sedation for invasive procedures or awake fibre-optic intubation in critical care patients for whom other agents are not appropriate due to lack of efficacy or adverse effects
 DEXRAZOXANE,ZINECARD,Restricted to indications outlined in the BCCA Benefit Drug List AND patients who are registered with BCCA
 ETIDRONATE/CALCIUM KIT,DIDROCAL,Restricted to residential care
 DIGOXIN IMMUNE FAB,DIGIFAB,Restricted to use approved by BC Drug and Poison Information Centre (DPIC) (part of BC Poison Control Antidote Replacement Programme)
@@ -58,8 +58,8 @@ FERRIC SODIUM GLUCONATE,FERRLECIT,Restricted to indications outlined by BCPRA AN
 FERUMOXYTOL,FERAHEME,Restricted to the following indications:
 ,,1.     BCPRA Registered chronic kidney disease patients who are not on dialysis and intolerant to or inadequately treated with oral iron
 ,,2.     Patients who are dialyzing at home:
-,,o   Peritoneal dialysis patient inadequately treated with oral iron
-,,o   Home hemodialysis patient inadequately treated with oral iron and are not self administering intravenous iron
+,,Peritoneal dialysis patient inadequately treated with oral iron
+,,Home hemodialysis patient inadequately treated with oral iron and are not self administering intravenous iron
 ,,3.     Patients who are being dialyzed in a dialysis facility (in- centre or community) and have demonstrated adverse events with and so precludes further treatment with other available intravenous irons
 ,,OR
 ,,Iron deficiency anemia patients with prior adverse reaction to alternative intravenous iron preparation
@@ -106,8 +106,8 @@ mitoXANtrone,NOVANTRONE,Restricted to indications outlined in the BCCA Benefit D
 MOMETASONE nasal spray,NASONEX,Restricted to pediatrics age 3 to 12
 MYCOPHENOLATE SODIUM,MYFORTIC,Restricted to indications outlined by BCTS.
 ,,The indications for Mycophenolate Sodium (Myfortic®) will be as follows:
-,,·         Patients who have intolerance to the gastro-intestinal side effects of CellCept®.
-,,·         Out-of-province patients who are receiving Myfortic® and have returned to British Columbia for follow-up
+,,Patients who have intolerance to the gastro-intestinal side effects of CellCept®.
+,,Out-of-province patients who are receiving Myfortic® and have returned to British Columbia for follow-up
 nIFEdipine Sustained Release (SR),"ADALAT XL, ADALAT PA",Restricted to obstetric indications
 NITRAZEPAM,MOGADON,Restricted to pediatrics
 OCTREOTIDE long-acting injection,SANDOSTATIN LAR,Restricted to indications outlined in the BCCA Benefit Drug List AND patients who are registered with BCCA
@@ -128,15 +128,15 @@ PENTAMIDINE ISETHIONATE,PENTACARINAT,Restricted to approval of the Centre for Ex
 PHOSPHOLIPID + SURFACTANT- ASSOCIATED PROTEINS (Bovine Lipid Extract Surfactant -BLES),BLES,Restricted to neonates
 POSACONAZOLE,POSANOL,Restricted to the prophylaxis or treatment of invasive fungal infections in patients 13 years of age and older who can tolerate a full fat meal for the following indications:
 ,,1. Prophylaxis of invasive fungal infections in:
-,,"     a. Neutropenic patients, where neutropenia is present for 10 days or longer, plus one of the following:"
-,,"          i. Colonized with Aspergillus species, and/or receiving corticosteroids>1mg/kg/day."
-,,          ii. Acute Myeloid Leukemia or Myelodysplastic Syndrome receiving induction chemotherapy;
-,,          iii. Acute lymphocytic leukemia
-,,          iv. Burkitt’s Lymphoma
-,,     b. Allogeneic stem cell transplant patients with steroid- refractory graft-versus-host-disease treated with intensive immunosuppressive therapy
+,,"Neutropenic patients, where neutropenia is present for 10 days or longer, plus one of the following:"
+,,"Colonized with Aspergillus species, and/or receiving corticosteroids>1mg/kg/day."
+,,Acute Myeloid Leukemia or Myelodysplastic Syndrome receiving induction chemotherapy;
+,,Acute lymphocytic leukemia
+,,Burkitt’s Lymphoma
+,, Allogeneic stem cell transplant patients with steroid- refractory graft-versus-host-disease treated with intensive immunosuppressive therapy
 ,,"2. Treatment of invasive fungal infections, including zygomycetes, in leukemia/bone marrow transplant patients:"
-,,"     a. Intolerant or resistant to other appropriate antifungals (e.g. amphotericin B, voriconazole, itraconazole, micafungin), or"
-,,     b. Where oral step down therapy is appropriate and cost effective
+,,"Intolerant or resistant to other appropriate antifungals (e.g. amphotericin B, voriconazole, itraconazole, micafungin), or"
+,,Where oral step down therapy is appropriate and cost effective
 QUINAGOLIDE,NORPROLAC,Restricted to indications outlined in the BCCA Benefit Drug List AND patients who are registered with BCCA
 RABIES IMMUNE GLOBULIN,IMOGAM RABIES PASTEURIZED,Restricted to use approved by the Medical Health Officer
 RABIES VACCINE,IMOVAX RABIES,Restricted to use approved by the Medical Health Officer
@@ -167,16 +167,15 @@ TENOFOVIR,VIREAD,Restricted to approval of the Centre for Excellence (CFE) in HI
 TESTOSTERONE ENANTHATE,,Restricted to indications outlined in the BCCA Benefit Drug List AND patients who are registered with BCCA
 THYROTROPIN ALFA,THYROGEN,Restricted to indications outlined in the BCCA Benefit Drug List AND patients who are registered with BCCA
 TICAGRELOR,BRILINTA,Restricted to the following criteria:
-,,a.     For continuity of care in patients who are using ticagrelor in the community
-,,b.     As per PharmaCare criteria for physicians who have signed off on the Collaborative Prescribing Agreement
-,,
+,,For continuity of care in patients who are using ticagrelor in the community
+,,As per PharmaCare criteria for physicians who have signed off on the Collaborative Prescribing Agreement
 ,,PharmaCare Criteria:
 ,,"To be taken in combination with ASA 75 mg – 150 mg daily for patients with acute coronary syndrome (i.e., ST elevation myocardial infarction [STEMI], non-ST elevation myocardial infarction [NSTEMI] or unstable angina [UA]) with ONE of the following:"
-,,·         Failure on optimal clopidogrel and ASA therapy as defined by definite stent thrombosis or recurrent STEMI or NSTEMI or UA after prior revascularization via percutaneous coronary intervention (PCI)
+,,Failure on optimal clopidogrel and ASA therapy as defined by definite stent thrombosis or recurrent STEMI or NSTEMI or UA after prior revascularization via percutaneous coronary intervention (PCI)
 ,,OR
-,,·         STEMI and undergoing revascularization via PCI
+,,STEMI and undergoing revascularization via PCI
 ,,OR
-,,·         NSTEMI or UA and high risk angiographic anatomy and undergoing revascularization via PCI
+,,NSTEMI or UA and high risk angiographic anatomy and undergoing revascularization via PCI
 TICARCILLIN + CLAVULANATE,TIMENTIN,Restricted to treatment of Stenotrophomonas maltophilia infections when other agents cannot be used due to intolerance or resistance
 TIGECYCLINE,TYGACIL,Restricted for use as a last line for patients with multi-drug resitant organism infections or intolerance to other antibiotics
 TRETINOIN,VESANOID,Restricted to indications outlined in the BCCA Benefit Drug List AND patients who are registered with BCCA
