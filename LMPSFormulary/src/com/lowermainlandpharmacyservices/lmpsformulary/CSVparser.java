@@ -25,9 +25,9 @@ public class CSVparser {
 			reader = new CSVReader(dataFile);
 			String [] nextLine;
 			reader.readNext(); //title line
-			while ((nextLine = reader.readNext()) != null) 	{
+			while ((nextLine = reader.readNext()) != null) 	{	
 				if(!(nextLine[0].equals(""))){ //handles all the empty lines
-
+//					System.out.println(nextLine[0]); //debugging
 					//genericList-------------------------------------------------------------------------------
 					if(genericList.containsGenericName(nextLine[0])){ //if drug already in the list
 						//add strength
@@ -98,6 +98,7 @@ public class CSVparser {
 						lastGenericDrug = nextLine[0]; //sets the last drug if next line is extra criteria
 					}
 					else{
+//						System.out.println(nextLine[0]); //debugging
 						if(nextLine[1].contains(",")){
 							String[] brandNameList;
 							brandNameList = nextLine[1].split(",");
@@ -143,12 +144,13 @@ public class CSVparser {
 
 	public void parseRestricted(InputStream csvFile){
 		BufferedReader dataFile;
-		try {
-			dataFile = new BufferedReader(new InputStreamReader(csvFile,"UTF-8"));
-		} catch (UnsupportedEncodingException e1) {
+//		try {
+//			dataFile = new BufferedReader(new InputStreamReader(csvFile,"UTF-8"));
 			dataFile = new BufferedReader(new InputStreamReader(csvFile));
-			e1.printStackTrace();
-		}
+//		} catch (UnsupportedEncodingException e1) {
+//			dataFile = new BufferedReader(new InputStreamReader(csvFile));
+//			e1.printStackTrace();
+//		}
 		CSVReader reader = null;
 		try {
 			reader = new CSVReader(dataFile);
@@ -158,6 +160,7 @@ public class CSVparser {
 
 			reader.readNext(); //title line
 			while ((nextLine = reader.readNext()) != null) 	{
+				System.out.println(nextLine[0]); //debugging
 				//extraline for restricted criteria
 				if((nextLine[0].equals("")) && !(nextLine[2].equals(""))){
 					((GenericRestrictedDrug)genericList.getGenericDrug(lastGenericDrug)).additionalCriteria(nextLine[2]);
@@ -169,6 +172,7 @@ public class CSVparser {
 						lastGenericDrug = nextLine[0]; //sets the last drug if next line is extra criteria
 					}
 					else{
+//						System.out.println(nextLine[0]); //debugging
 						if(nextLine[1].contains(",")){
 							String[] brandNameList;
 							brandNameList = nextLine[1].split(",");

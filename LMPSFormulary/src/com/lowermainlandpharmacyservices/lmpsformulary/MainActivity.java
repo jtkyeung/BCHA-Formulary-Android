@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
 					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get(); //local
 					//					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
-					downloadRestricted.execute("https://www.dropbox.com/s/1l2y073iljdgltq/restricted-edited.csv?dl=1").get();
+					downloadRestricted.execute("https://www.dropbox.com/s/n4so74xl4n7wbhy/restricted.csv?dl=1").get();
 					//						https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1
 					// We need an Editor object to make preference changes.
 					// All objects are from android.context.Context
