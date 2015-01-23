@@ -144,7 +144,6 @@ public class MainActivity extends Activity {
 					masterList.parseExcluded(openFileInput("excludedUpdated.csv"));
 					System.out.println("excludedparsed");
 					masterList.parseRestricted(openFileInput("restrictedUpdated.csv"));
-					System.out.println("parsingdidntbreak");
 				}
 				else{
 					System.out.println("parser from default files");
