@@ -15,14 +15,6 @@
         android:textColor="#FFFFFF"
         android:textSize="35sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="FORMULARY"
-        android:textSize="20dp"
-        android:textStyle="bold"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -58,6 +50,15 @@
                 android:id="@+id/formulary_strength"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="Status: FORMULARY"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                />
         </LinearLayout>
     </ScrollView>
 
