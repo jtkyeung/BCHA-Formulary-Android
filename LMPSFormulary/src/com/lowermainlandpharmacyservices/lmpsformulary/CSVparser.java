@@ -54,7 +54,7 @@ public class CSVparser {
 						String[] brandNameList;
 						brandNameList = brandname.split(",");//break up brand names 
 						for(String brandName:brandNameList){
-							addBrandNameFormulary(name, brandName, nextLine[1]);//add brand names one by one
+							addBrandNameFormulary(name, brandName.trim(), nextLine[1]);//add brand names one by one
 						}
 					}
 					else{ //there is only 1 brand name
@@ -243,9 +243,10 @@ public class CSVparser {
 		if(brandName.contains(",")){
 			String[] brandNameList;
 			brandNameList = brandName.split(",");
-			genericList.addGenericDrug(new GenericFormularyDrug(genericName, brandNameList[0], strength));
-			for(String extraBrands:brandNameList){
-				addBrandNameToExistingFormularyDrug(genericName, extraBrands);
+			genericList.addGenericDrug(new GenericFormularyDrug(genericName, brandNameList[0].trim().toUpperCase(), strength));
+			for(int i = 1; i < brandNameList.length;i++){
+				brandName=brandNameList[i].trim();
+				addBrandNameToExistingFormularyDrug(genericName, brandNameList[i].trim());
 			}
 		}
 		else{
