@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -188,7 +187,7 @@ public class MainActivity extends Activity {
 			autocompletetextview.setThreshold(1);
 			autocompletetextview.setAdapter(adapter);	
 			//predictive text end---------------------------------------
-
+			
 			System.out.println("madelists");
 			editor.putBoolean("toParse", false);
 			// Commit the edits!
@@ -308,5 +307,7 @@ public class MainActivity extends Activity {
 		Intent helpResult = new Intent(this, HelpActivity.class);
 		startActivity(helpResult);
 	}
+	
+	
 
 }

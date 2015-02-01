@@ -16,6 +16,7 @@
     <string name="strengths">Strengths:</string>
     <string name="title_activity_display_excluded">DisplayExcludedActivity</string>
     <string name="status">Status:</string>
+    <string name="formulary_status">Status: \n\t\tFORMULARY</string>
     <string name="excluded">EXCLUDED</string>
     <string name="excluded_reason">Reason for Exclusion:</string>
     <string name="excluded_descrip_header">Excluded Description:</string>
