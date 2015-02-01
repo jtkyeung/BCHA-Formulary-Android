@@ -20,6 +20,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -46,6 +49,7 @@ public class MainActivity extends Activity {
 	public AssetManager assetManager;
 	private boolean isConnected;
 	AutoCompleteTextView autocompletetextview;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -182,11 +186,21 @@ public class MainActivity extends Activity {
 			Collections.sort(masterDrugNameList); //sort the arraylist of names alphabetically
 
 			autocompletetextview = (AutoCompleteTextView) findViewById(R.id.search_input);
-
 			ArrayAdapter<String> adapter = new ArrayAdapter<String> (this,android.R.layout.select_dialog_item, masterDrugNameList);
 			autocompletetextview.setThreshold(1);
 			autocompletetextview.setAdapter(adapter);	
 			//predictive text end---------------------------------------
+
+			//hide keyboard after selection
+			autocompletetextview.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					in.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+				}
+
+			});
 			
 			System.out.println("madelists");
 			editor.putBoolean("toParse", false);
@@ -194,8 +208,6 @@ public class MainActivity extends Activity {
 			editor.commit();
 		}
 	}
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -307,7 +319,7 @@ public class MainActivity extends Activity {
 		Intent helpResult = new Intent(this, HelpActivity.class);
 		startActivity(helpResult);
 	}
-	
-	
+
+
 
 }
