@@ -52,7 +52,7 @@ public class DisplayOtherResult extends Activity {
 	}
 	
 	public void viewTable(View view){
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dropbox.com/s/ml7hzijr00pcl6u/formulary%20%281%29.pdf?dl=1"));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AADoJ9wfl8c67vIFjdSuBXOYa/full%20list.pdf?dl=1"));
 		startActivity(browserIntent);
 	}
 }

@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
 			}else {
 				currVersion = "";
 			}
-			fileVersion.execute("https://www.dropbox.com/s/4cvo08xnmlg7qr6/update.txt?dl=1").get(); //get() waits for a return
+			fileVersion.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAD2BXYQ0oB-i1RLnCYAnA7na/update.txt?dl=1").get(); //get() waits for a return
 
 			fis = openFileInput("fileVersion.txt");
 			reader = new BufferedReader(new InputStreamReader(fis));
@@ -96,15 +96,14 @@ public class MainActivity extends Activity {
 				isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 				//if network is on	
 				if(isConnected){
-					// execute this when the downloader must be fired
+					// execute when new updates are needed
 					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
-					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1").get();
+					downloadFormulary.execute("https://www.dropbox.com/s/uezse2mqq1mqx1w/formulary.csv?dl=1").get();
 					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
-					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get(); //local
-					//					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
+					downloadExcluded.execute("https://www.dropbox.com/s/y1zt4yhmouc1yko/excluded.csv?dl=1").get();
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
-					downloadRestricted.execute("https://www.dropbox.com/s/n4so74xl4n7wbhy/restricted.csv?dl=1").get();
-					//						https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1
+					downloadRestricted.execute("https://www.dropbox.com/s/khmb7l5yu1ysip1/restricted.csv?dl=1").get();
+
 					// We need an Editor object to make preference changes.
 					// All objects are from android.context.Context
 					editor.putBoolean("filesDownloaded", true);
@@ -121,7 +120,7 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		} 
 		catch (Exception e){
-			currVersion = "-2"; //TODO change later
+			currVersion = "-2";
 		}
 		finally {
 			try {
@@ -308,8 +307,6 @@ public class MainActivity extends Activity {
 		} else {
 			Intent otherResult = new Intent(this, DisplayOtherResult.class);
 			otherResult.putExtra(EXTRA_INFO, searchInput);
-			/*Toast toast = Toast.makeText(getApplicationContext(), "Drug " + "(" + searchInput + ")" + " Not Found", Toast.LENGTH_SHORT);
-			toast.show();*/
 			startActivity(otherResult);
 		}
 
