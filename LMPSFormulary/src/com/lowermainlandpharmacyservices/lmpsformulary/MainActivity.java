@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -21,6 +20,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -48,6 +50,7 @@ public class MainActivity extends Activity {
 	private boolean isConnected;
 	AutoCompleteTextView autocompletetextview;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,7 +77,7 @@ public class MainActivity extends Activity {
 			}else {
 				currVersion = "";
 			}
-			fileVersion.execute("https://www.dropbox.com/s/4cvo08xnmlg7qr6/update.txt?dl=1").get(); //get() waits for a return
+			fileVersion.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAD2BXYQ0oB-i1RLnCYAnA7na/update.txt?dl=1").get(); //get() waits for a return
 
 			fis = openFileInput("fileVersion.txt");
 			reader = new BufferedReader(new InputStreamReader(fis));
@@ -93,15 +96,14 @@ public class MainActivity extends Activity {
 				isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 				//if network is on	
 				if(isConnected){
-					// execute this when the downloader must be fired
+					// execute when new updates are needed
 					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
-					downloadFormulary.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1").get();
+					downloadFormulary.execute("https://www.dropbox.com/s/uezse2mqq1mqx1w/formulary.csv?dl=1").get();
 					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
-					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get(); //local
-					//					downloadExcluded.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
+					downloadExcluded.execute("https://www.dropbox.com/s/y1zt4yhmouc1yko/excluded.csv?dl=1").get();
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
-					downloadRestricted.execute("https://www.dropbox.com/s/1l2y073iljdgltq/restricted-edited.csv?dl=1").get();
-					//						https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1
+					downloadRestricted.execute("https://www.dropbox.com/s/khmb7l5yu1ysip1/restricted.csv?dl=1").get();
+
 					// We need an Editor object to make preference changes.
 					// All objects are from android.context.Context
 					editor.putBoolean("filesDownloaded", true);
@@ -118,7 +120,7 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		} 
 		catch (Exception e){
-			currVersion = "-2"; //TODO change later
+			currVersion = "-2";
 		}
 		finally {
 			try {
@@ -144,7 +146,6 @@ public class MainActivity extends Activity {
 					masterList.parseExcluded(openFileInput("excludedUpdated.csv"));
 					System.out.println("excludedparsed");
 					masterList.parseRestricted(openFileInput("restrictedUpdated.csv"));
-					System.out.println("parsingdidntbreak");
 				}
 				else{
 					System.out.println("parser from default files");
@@ -184,20 +185,28 @@ public class MainActivity extends Activity {
 			Collections.sort(masterDrugNameList); //sort the arraylist of names alphabetically
 
 			autocompletetextview = (AutoCompleteTextView) findViewById(R.id.search_input);
-
 			ArrayAdapter<String> adapter = new ArrayAdapter<String> (this,android.R.layout.select_dialog_item, masterDrugNameList);
 			autocompletetextview.setThreshold(1);
 			autocompletetextview.setAdapter(adapter);	
 			//predictive text end---------------------------------------
 
+			//hide keyboard after selection
+			autocompletetextview.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					in.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+				}
+
+			});
+			
 			System.out.println("madelists");
 			editor.putBoolean("toParse", false);
 			// Commit the edits!
 			editor.commit();
 		}
 	}
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -298,8 +307,6 @@ public class MainActivity extends Activity {
 		} else {
 			Intent otherResult = new Intent(this, DisplayOtherResult.class);
 			otherResult.putExtra(EXTRA_INFO, searchInput);
-			/*Toast toast = Toast.makeText(getApplicationContext(), "Drug " + "(" + searchInput + ")" + " Not Found", Toast.LENGTH_SHORT);
-			toast.show();*/
 			startActivity(otherResult);
 		}
 
@@ -309,5 +316,7 @@ public class MainActivity extends Activity {
 		Intent helpResult = new Intent(this, HelpActivity.class);
 		startActivity(helpResult);
 	}
+
+
 
 }

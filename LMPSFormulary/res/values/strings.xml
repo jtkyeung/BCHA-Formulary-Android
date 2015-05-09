@@ -16,6 +16,7 @@
     <string name="strengths">Strengths:</string>
     <string name="title_activity_display_excluded">DisplayExcludedActivity</string>
     <string name="status">Status:</string>
+    <string name="formulary_status">Status: \n\t\tFORMULARY</string>
     <string name="excluded">EXCLUDED</string>
     <string name="excluded_reason">Reason for Exclusion:</string>
     <string name="excluded_descrip_header">Excluded Description:</string>
@@ -27,6 +28,7 @@
     <string name="display_table">Download Formulary</string>
     <string name="title_activity_help">HelpActivity</string>
     <string name="button_description_help">Help Button</string>
+    <string name="review_pending">This drug appears to be non-formulary. It may be undergoing a formal review to be included on Formulary at a later time</string>
     <string name="helptitle">About This App</string>
     <string name="maillink"><a href="mailto:anthony.tung@fraserhealth.ca?subject=formulary app question">anthony.tung@fraserhealth.ca</a></string>
 
