@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
 			}else {
 				currVersion = "";
 			}
-			fileVersion.execute("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAD2BXYQ0oB-i1RLnCYAnA7na/update.txt?dl=1").get(); //get() waits for a return
+			fileVersion.execute("https://www.dropbox.com/s/4cvo08xnmlg7qr6/update.txt?dl=1").get(); //get() waits for a return
 
 			fis = openFileInput("fileVersion.txt");
 			reader = new BufferedReader(new InputStreamReader(fis));
@@ -98,11 +98,11 @@ public class MainActivity extends Activity {
 				if(isConnected){
 					// execute when new updates are needed
 					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
-					downloadFormulary.execute("https://www.dropbox.com/s/uezse2mqq1mqx1w/formulary.csv?dl=1").get();
+					downloadFormulary.execute("https://www.dropbox.com/s/3qdfzzfeucp83nt/formulary.csv?dl=1").get();
 					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
-					downloadExcluded.execute("https://www.dropbox.com/s/y1zt4yhmouc1yko/excluded.csv?dl=1").get();
+					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get();
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
-					downloadRestricted.execute("https://www.dropbox.com/s/khmb7l5yu1ysip1/restricted.csv?dl=1").get();
+					downloadRestricted.execute("https://www.dropbox.com/s/n4so74xl4n7wbhy/restricted.csv?dl=1").get();
 
 					// We need an Editor object to make preference changes.
 					// All objects are from android.context.Context
@@ -177,6 +177,10 @@ public class MainActivity extends Activity {
 			//make master nameList
 			ArrayList<String> masterDrugNameList = genericList.getGenericNameList(); //add all the generic names
 			ArrayList<String> brandNameList = brandList.getBrandNameList();
+//			boolean genericFound = genericList.getGenericNameList().contains("ADVAGRAF");
+//			boolean genericSpaceFound = genericList.getGenericNameList().contains(" ADVAGRAF");
+//			boolean brandFound = brandList.getBrandNameList().contains("ADVAGRAF");
+//			boolean brandSpaceFound = brandList.getBrandNameList().contains(" ADVAGRAF");
 			for(String brandName:brandNameList){
 				if(!(masterDrugNameList.contains(brandName))){ //only add brand names if they don't already appear
 					masterDrugNameList.add(brandName);
@@ -200,7 +204,7 @@ public class MainActivity extends Activity {
 				}
 
 			});
-			
+
 			System.out.println("madelists");
 			editor.putBoolean("toParse", false);
 			// Commit the edits!
@@ -237,13 +241,13 @@ public class MainActivity extends Activity {
 		String searchInput = editText.getText().toString().toUpperCase().trim();
 		Drug drug = null;
 		String type = null;
-
+		
 		if(genericList.containsGenericName(searchInput)){
 			drug = genericList.getGenericDrug(searchInput);
 			type = "Generic";
 			System.out.println("checkdrug");
 
-			if (drug.getStatus() == "Formulary") { 
+			if (drug.getStatus().equals("Formulary")) { 
 				Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
 				GenericFormularyDrug fdrug = (GenericFormularyDrug) drug;
 				formularyResult.putExtra(EXTRA_GENERICNAME, fdrug.getGenericName());
@@ -253,7 +257,7 @@ public class MainActivity extends Activity {
 				startActivity(formularyResult);
 				System.out.println("startedactivity");
 
-			} else if (drug.getStatus() == "Restricted") {
+			} else if (drug.getStatus().equals("Restricted")) {
 				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
 				GenericRestrictedDrug rdrug = (GenericRestrictedDrug) drug;
 				restrictedResult.putExtra(EXTRA_GENERICNAME, rdrug.getGenericName());
@@ -262,7 +266,7 @@ public class MainActivity extends Activity {
 				restrictedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(restrictedResult);
 
-			} else if (drug.getStatus() == "Excluded") {
+			} else if (drug.getStatus().equals("Excluded")) {
 				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
 				GenericExcludedDrug edrug = (GenericExcludedDrug) drug;
 				excludedResult.putExtra(EXTRA_GENERICNAME, edrug.getGenericName());
@@ -276,7 +280,7 @@ public class MainActivity extends Activity {
 			drug = brandList.getBrandDrug(searchInput);
 			type = "Brand";
 
-			if (drug.getStatus() == "Formulary") { 
+			if (drug.getStatus().equals("Formulary")) { 
 				Intent formularyResult = new Intent(this, DisplayFormularyResult.class);
 				BrandFormularyDrug fdrug = (BrandFormularyDrug) drug;
 				formularyResult.putExtra(EXTRA_GENERICNAME, fdrug.getGenericNames());
@@ -285,7 +289,7 @@ public class MainActivity extends Activity {
 				formularyResult.putExtra(EXTRA_TYPE, type);
 				startActivity(formularyResult);
 
-			} else if (drug.getStatus() == "Restricted") {
+			} else if (drug.getStatus().equals("Restricted")) {
 				Intent restrictedResult = new Intent(this, DisplayRestrictedResult.class);
 				BrandRestrictedDrug rdrug = (BrandRestrictedDrug) drug;
 				restrictedResult.putStringArrayListExtra(EXTRA_GENERICNAME, rdrug.getGenericNames());
@@ -294,7 +298,7 @@ public class MainActivity extends Activity {
 				restrictedResult.putExtra(EXTRA_TYPE, type);
 				startActivity(restrictedResult);
 
-			} else if (drug.getStatus() == "Excluded") {
+			} else if (drug.getStatus().equals("Excluded")) {
 				Intent excludedResult = new Intent(this, DisplayExcludedResult.class);
 				BrandExcludedDrug edrug = (BrandExcludedDrug) drug;
 				excludedResult.putStringArrayListExtra(EXTRA_GENERICNAME, edrug.getGenericNames());
