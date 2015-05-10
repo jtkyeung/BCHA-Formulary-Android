@@ -177,10 +177,7 @@ public class MainActivity extends Activity {
 			//make master nameList
 			ArrayList<String> masterDrugNameList = genericList.getGenericNameList(); //add all the generic names
 			ArrayList<String> brandNameList = brandList.getBrandNameList();
-//			boolean genericFound = genericList.getGenericNameList().contains("ADVAGRAF");
-//			boolean genericSpaceFound = genericList.getGenericNameList().contains(" ADVAGRAF");
-//			boolean brandFound = brandList.getBrandNameList().contains("ADVAGRAF");
-//			boolean brandSpaceFound = brandList.getBrandNameList().contains(" ADVAGRAF");
+
 			for(String brandName:brandNameList){
 				if(!(masterDrugNameList.contains(brandName))){ //only add brand names if they don't already appear
 					masterDrugNameList.add(brandName);

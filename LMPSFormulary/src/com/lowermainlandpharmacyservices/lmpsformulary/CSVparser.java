@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import com.opencsv.CSVReader;
 
@@ -163,50 +164,53 @@ public class CSVparser {
 			String [] nextLine;
 			String lastGenericDrug=null;
 			String lastBrandDrug = null;
+			ArrayList<String> restrictedBrandNameList = new ArrayList<String>();
 
 			reader.readNext(); //title line
 			while ((nextLine = reader.readNext()) != null) 	{
-				String name = nextLine[0].toUpperCase();
-				String brandname = nextLine[2].toUpperCase();
+				String name = nextLine[0].trim().toUpperCase();
+				String restrictedCriteria = nextLine[2].trim().toUpperCase();
 				
 				//extraline for restricted criteria
-				if((name.equals("")) && !(brandname.equals(""))){
-					((GenericRestrictedDrug)genericList.getGenericDrug(lastGenericDrug)).additionalCriteria(brandname);
-					((BrandRestrictedDrug)brandList.getBrandDrug(lastBrandDrug)).additionalCriteria(brandname);
+				if((name.equals("")) && !(restrictedCriteria.equals(""))){
+					((GenericRestrictedDrug)genericList.getGenericDrug(lastGenericDrug)).additionalCriteria(restrictedCriteria);
+					((BrandRestrictedDrug)brandList.getBrandDrug(lastBrandDrug)).additionalCriteria(restrictedCriteria);
 				}
 				else if(!(name.equals(""))){//handles blank lines
 					if(nextLine[1].equals("")){//no brandname
-						genericList.addGenericDrug(new GenericRestrictedDrug(name, "", brandname));
+						genericList.addGenericDrug(new GenericRestrictedDrug(name, "", restrictedCriteria));
 						lastGenericDrug = name; //sets the last drug if next line is extra criteria
 					}
 					else{
-						if(nextLine[1].contains(",")){
+						if(nextLine[1].contains(",")){ //multiple brand names
 							String[] brandNameList;
 							brandNameList = nextLine[1].split(",");
-							brandList.addBrandDrug(new BrandRestrictedDrug(name, brandNameList[0], brandname));
+							brandList.addBrandDrug(new BrandRestrictedDrug(name, brandNameList[0], restrictedCriteria));
+							restrictedBrandNameList.add(brandNameList[0]);
 							for(String additionalBrand:brandNameList){
+								restrictedBrandNameList.add(additionalBrand);
 								//if brand name already exists, add just the generic name to the list
-								if(brandList.containsBrandName(nextLine[1])){
-									((BrandRestrictedDrug)brandList.getBrandDrug(nextLine[1])).addGenericName(name);
+								if(restrictedBrandNameList.contains(additionalBrand.trim())){
+									((BrandRestrictedDrug)brandList.getBrandDrug(additionalBrand.trim())).addGenericName(name);
 								}
 								else{
-									brandList.addBrandDrug(new BrandRestrictedDrug(name, additionalBrand, brandname));
-									genericList.addGenericDrug(new GenericRestrictedDrug(name, nextLine[1], brandname));
-									
+									brandList.addBrandDrug(new BrandRestrictedDrug(name, additionalBrand.trim(), restrictedCriteria));
+									genericList.addGenericDrug(new GenericRestrictedDrug(name, additionalBrand.trim(), restrictedCriteria));
 								}
 							}
 							lastGenericDrug = name; //sets the last drug if next line is extra criteria
 							lastBrandDrug = brandNameList[0];
 						}
-						else{
+						else{ //single brand name
 							if(brandList.containsBrandName(nextLine[1]) && 
 									brandList.getBrandDrug(nextLine[1]).getStatus().equals("Restricted")){
 								((BrandRestrictedDrug)brandList.getBrandDrug(nextLine[1])).addGenericName(name);
 							}
 							else{
-								brandList.addBrandDrug(new BrandRestrictedDrug(name, nextLine[1], brandname));
+								brandList.addBrandDrug(new BrandRestrictedDrug(name, nextLine[1], restrictedCriteria));
+								restrictedBrandNameList.add(nextLine[1]);
 								lastBrandDrug = nextLine[1];
-								genericList.addGenericDrug(new GenericRestrictedDrug(name, nextLine[1], brandname));
+								genericList.addGenericDrug(new GenericRestrictedDrug(name, nextLine[1], restrictedCriteria));
 								lastGenericDrug = name; //sets the last drug if next line is extra criteria
 							}
 						}
