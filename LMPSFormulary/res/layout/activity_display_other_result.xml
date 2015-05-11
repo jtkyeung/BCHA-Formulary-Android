@@ -16,27 +16,37 @@
         android:textColor="#FFFFFF"
         android:textSize="35sp" />
 
-    <TextView
-        android:id="@+id/drugnotfound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-         />
-    
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
-    
-        <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="viewTable"
-        android:text="@string/display_table" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/drugnotfound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="viewTable"
+                android:text="@string/display_table" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

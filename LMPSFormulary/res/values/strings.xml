@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">LMPS Formulary</string>
+    <string name="app_name">BCHA Formulary</string>
     <string name="action_settings">Settings</string>
-    <string name="search_hint">Search by generic name or brand name</string>
+    <string name="search_hint">Search by generic or brand name</string>
     <string name="button_search">Search</string>
-    <string name="title">Lower Mainland Pharmacy Services</string>
+    <string name="title">BC Health Authorities Services</string>
     <string name="formulary">FORMULARY</string>
     <string name="image_description_logo">LMPS logo</string>
     <string name="title_activity_display_formulary_result">DisplayFormularyResult</string>
@@ -13,7 +13,8 @@
     <string name="title_activity_display_restricted_result">DisplayRestrictedResult</string>
     <string name="title_activity_display_excluded_result">DisplayExcludedResult</string>
     <string name="brandname">Brand Names:</string>
-    <string name="strengths">Strengths:</string>
+    <string name="strengths">Common Strengths:</string>
+    <string name="strengths_cont">(May not be available at all sites)</string>
     <string name="title_activity_display_excluded">DisplayExcludedActivity</string>
     <string name="status">Status:</string>
     <string name="formulary_status">Status: \n\t\tFORMULARY</string>

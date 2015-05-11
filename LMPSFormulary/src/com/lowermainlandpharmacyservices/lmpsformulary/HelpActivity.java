@@ -27,9 +27,9 @@ public class HelpActivity extends Activity {
 		String tipscont = "\t" + "- Combination drug products can be found by searching for any individual component alone or for the brand name of the entire product." + "\n";
 		tipscont += "\t" + "- A full list of all vaccines will appear when you search for \" vaccine\". Similarly for \"multivitamins\" and \"lipid\"" + "\n";
 		tipscont += "\t" + "- If you are unable to find a medication, use the \"Download Formulary\" button to browse a list of all formulary, restricted, and excluded drugs";
-		String createdby = "The LMPS Formulary App was created by Jessica Yeung and Kelvin Chan, with support from FH Medication  Use Evaluation" + "\n" + "\n";
+		String createdby = "The BCHA Formulary App was created by Jessica Yeung and Kelvin Chan, with support from FH Medication  Use Evaluation" + "\n" + "\n";
 		
-		String disclaimer = "Disclaimer:" + "\n" + "The information contained in this document, and as amended from time to time, was created expressly for use by the Lower Mainland Pharmacy Services and persons acting on behalf of the Lower Mainland Pharmacy Services for guiding actions and decisions taken on behalf of Lower Mainland Pharmacy Services. Any adoption/use/modification of this document are done so at the risk of the adopting organization. Lower Mainland Pharmacy Services accepts no responsibility for any modification and/or redistribution and is not liable in any way for any actions taken by individuals based on the information herein, or for any inaccuracies, errors, or omissions in the information in this document.";
+		String disclaimer = "Disclaimer:" + "\n" + "The information contained in this document, and as amended from time to time, was created expressly for use by the Lower Mainland Pharmacy Services and persons acting on behalf of the Lower Mainland Pharmacy Services for guiding actions and decisions taken on behalf of Lower Mainland Pharmacy Services. Any adoption/use/modification of this document are done so at the risk of the adopting organization. Lower Mainland Pharmacy Services accepts no responsibility for any modification and/or redistribution and is not liable in any way for any actions taken by individuals based on the information herein, or for any inaccuracies, errors, or omissions in the information in this document. Local health authorities may have additional restrictions to the use of this drug.";
 		
 		String questions = "Questions and comments:";
 		
@@ -57,6 +57,7 @@ public class HelpActivity extends Activity {
 		
 		TextView footer = (TextView) findViewById(R.id.footer);
 		footer.setText(createdby + disclaimer);
+		footer.setTypeface(null, Typeface.BOLD);
 		
 	}
 

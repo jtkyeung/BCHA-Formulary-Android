@@ -50,9 +50,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:padding="15dp"
+                android:layout_marginLeft="15dp"
                 android:text="@string/strengths"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:text="@string/strengths_cont"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textStyle="bold" />
 
             <TextView
