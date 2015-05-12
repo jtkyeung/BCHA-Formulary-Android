@@ -77,8 +77,9 @@ public class MainActivity extends Activity {
 			}else {
 				currVersion = "";
 			}
-			fileVersion.execute("https://www.dropbox.com/s/4cvo08xnmlg7qr6/update.txt?dl=1").get(); //get() waits for a return
-
+//			fileVersion.execute("https://www.dropbox.com/s/4cvo08xnmlg7qr6/update.txt?dl=1").get(); //get() waits for a return
+			fileVersion.execute("https://www.dropbox.com/s/cyng7mv7xaxr2hc/update.txt?dl=1").get();
+			
 			fis = openFileInput("fileVersion.txt");
 			reader = new BufferedReader(new InputStreamReader(fis));
 			line = reader.readLine();
@@ -98,11 +99,14 @@ public class MainActivity extends Activity {
 				if(isConnected){
 					// execute when new updates are needed
 					final DownloadTask downloadFormulary = new DownloadTask(MainActivity.this, "formularyUpdated.csv");
-					downloadFormulary.execute("https://www.dropbox.com/s/3qdfzzfeucp83nt/formulary.csv?dl=1").get();
+//					downloadFormulary.execute("https://www.dropbox.com/s/3qdfzzfeucp83nt/formulary.csv?dl=1").get();
+					downloadFormulary.execute("https://www.dropbox.com/s/uezse2mqq1mqx1w/formulary.csv?dl=1").get();
 					final DownloadTask downloadExcluded = new DownloadTask(MainActivity.this, "excludedUpdated.csv");
-					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get();
+//					downloadExcluded.execute("https://www.dropbox.com/s/lj6ucd9o7u1og3k/excluded.csv?dl=1").get();
+					downloadExcluded.execute("https://www.dropbox.com/s/y1zt4yhmouc1yko/excluded.csv?dl=1").get();
 					final DownloadTask downloadRestricted = new DownloadTask(MainActivity.this, "restrictedUpdated.csv");
-					downloadRestricted.execute("https://www.dropbox.com/s/n4so74xl4n7wbhy/restricted.csv?dl=1").get();
+//					downloadRestricted.execute("https://www.dropbox.com/s/n4so74xl4n7wbhy/restricted.csv?dl=1").get();
+					downloadRestricted.execute("https://www.dropbox.com/s/khmb7l5yu1ysip1/restricted.csv?dl=1").get();
 
 					// We need an Editor object to make preference changes.
 					// All objects are from android.context.Context
