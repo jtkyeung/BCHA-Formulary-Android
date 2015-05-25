@@ -88,6 +88,7 @@ public class CSVparser {
 			String [] nextLine;
 			String lastGenericDrug=null;
 			String lastBrandDrug = null;
+			ArrayList<String> excludedBrandNameList = new ArrayList<String>();
 
 			reader.readNext(); //title line
 			while ((nextLine = reader.readNext()) != null) 	{
@@ -111,14 +112,16 @@ public class CSVparser {
 							String[] brandNameList;
 							brandNameList = nextLine[1].split(",");
 							brandList.addBrandDrug(new BrandExcludedDrug(name, brandNameList[0], brandname));
+							excludedBrandNameList.add(brandNameList[0]);
 							for(String additionalBrand:brandNameList){
 								//if brand name already exists, add just the generic name to the list
-								if(brandList.containsBrandName(nextLine[1])){
-									((BrandExcludedDrug)brandList.getBrandDrug(nextLine[1])).addGenericName(name);
+								if(excludedBrandNameList.contains(additionalBrand.trim())){
+									((BrandExcludedDrug)brandList.getBrandDrug(additionalBrand.trim())).addGenericName(name);
 								}
 								else{
-									brandList.addBrandDrug(new BrandExcludedDrug(name, additionalBrand, brandname));
-									genericList.addGenericDrug(new GenericExcludedDrug(name, nextLine[1], brandname));
+									brandList.addBrandDrug(new BrandExcludedDrug(name, additionalBrand.trim(), brandname));
+									excludedBrandNameList.add(additionalBrand.trim());
+									genericList.addGenericDrug(new GenericExcludedDrug(name, additionalBrand.trim(), brandname));
 									lastGenericDrug = name; //sets the last drug if next line is extra criteria
 								}
 							}
@@ -131,6 +134,7 @@ public class CSVparser {
 							}
 							else{
 								brandList.addBrandDrug(new BrandExcludedDrug(name, nextLine[1], brandname));
+								excludedBrandNameList.add(nextLine[1]);
 								lastBrandDrug = nextLine[1];
 								genericList.addGenericDrug(new GenericExcludedDrug(name, nextLine[1], brandname));
 								lastGenericDrug = name; //sets the last drug if next line is extra criteria
