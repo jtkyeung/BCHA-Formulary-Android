@@ -17,19 +17,24 @@ public class DisplayOtherResult extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_other_result);
 		getActionBar().hide();
-		
+
 		Intent intent = getIntent();
-		String searchInput = intent.getStringExtra(MainActivity.EXTRA_INFO);
-		
+		String searchInput = intent.getStringExtra(Utilities.EXTRA_INFO);
+
 		TextView topTextView = (TextView) findViewById(R.id.notfound);
-	    topTextView.setTypeface(null, Typeface.BOLD);
-	    
-	    TextView inputView = (TextView) findViewById(R.id.drugnotfound);
-	    inputView.setText("Sorry, " + searchInput + " was not found.");
-	    inputView.setTypeface(null, Typeface.BOLD);
-		
-	    TextView descriptionView = (TextView) findViewById(R.id.description);
-	    descriptionView.setText("This drug appears to be a non-formulary drug. Please check your spelling and try again." +  "\n" + "\n"+ "It may be undergoing a formal review to be included on the formulary at a later time. To view the full drug inventory, sorted alphabetically by status, download using the following button:" + "\n");
+		topTextView.setTypeface(null, Typeface.BOLD);
+
+		TextView inputView = (TextView) findViewById(R.id.drugnotfound);
+		inputView.setText("Sorry, " + searchInput + " was not found.");
+		inputView.setTypeface(null, Typeface.BOLD);
+
+		TextView descriptionView = (TextView) findViewById(R.id.description);
+		descriptionView
+				.setText("This drug appears to be a non-formulary drug. Please check your spelling and try again."
+						+ "\n"
+						+ "\n"
+						+ "It may be undergoing a formal review to be included on the formulary at a later time. To view the full drug inventory, sorted alphabetically by status, download using the following button:"
+						+ "\n");
 	}
 
 	@Override
@@ -50,9 +55,11 @@ public class DisplayOtherResult extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void viewTable(View view){
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AADoJ9wfl8c67vIFjdSuBXOYa/full%20list.pdf?dl=1"));
+
+	public void viewTable(View view) {
+		Intent browserIntent = new Intent(
+				Intent.ACTION_VIEW,
+				Uri.parse("https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AADoJ9wfl8c67vIFjdSuBXOYa/full%20list.pdf?dl=1"));
 		startActivity(browserIntent);
 	}
 }

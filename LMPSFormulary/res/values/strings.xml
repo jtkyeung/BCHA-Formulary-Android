@@ -32,5 +32,8 @@
     <string name="review_pending">This drug appears to be non-formulary. It may be undergoing a formal review to be included on Formulary at a later time</string>
     <string name="helptitle">About This App</string>
     <string name="maillink"><a href="mailto:anthony.tung@fraserhealth.ca?subject=formulary app question">anthony.tung@fraserhealth.ca</a></string>
+    <string name="greetings_message">Welcome to the BCHA Formulary</string>
+    <string name="password_helper">Input keyphrase to continue</string>
+    <string name="authorize">Authorize my device</string>
 
 </resources>

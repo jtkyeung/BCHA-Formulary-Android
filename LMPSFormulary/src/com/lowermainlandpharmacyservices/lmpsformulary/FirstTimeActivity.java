@@ -1,0 +1,44 @@
+package com.lowermainlandpharmacyservices.lmpsformulary;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class FirstTimeActivity extends Activity {
+
+	SharedPreferences sharedPref;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+		getActionBar().hide();
+
+		sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+	}
+
+	public void authorizeDevice(View view) {
+		EditText input = (EditText) findViewById(R.id.keyphrase_input);
+		String passwordAttempt = input.getText().toString();
+
+		if (passwordAttempt.equalsIgnoreCase(Utilities.password)) {
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putBoolean(Utilities.authorizedUser, true);
+			editor.commit();
+
+			Intent searchActivity = new Intent(this, MainActivity.class);
+			startActivity(searchActivity);
+		} else {
+			Toast.makeText(this,
+					"This is an incorrect password. Please try again",
+					Toast.LENGTH_LONG).show();
+			input.setText("");
+			return;
+		}
+	}
+}

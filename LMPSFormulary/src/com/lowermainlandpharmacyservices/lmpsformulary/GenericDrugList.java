@@ -7,18 +7,19 @@ public class GenericDrugList {
 
 	private HashMap<String, Drug> genericDrugList;
 
-	public GenericDrugList(){
+	public GenericDrugList() {
 		genericDrugList = new HashMap<String, Drug>();
 	}
-	public int getDrugListSize(){
+
+	public int getDrugListSize() {
 		return genericDrugList.size();
 	}
 
-	public void addGenericDrug(GenericDrug newDrug){
+	public void addGenericDrug(GenericDrug newDrug) {
 		genericDrugList.put(newDrug.getGenericName(), newDrug);
 	}
 
-	public void removeGenericDrug(GenericDrug drug){
+	public void removeGenericDrug(GenericDrug drug) {
 
 		if (genericDrugList.containsValue(drug) != false) {
 			genericDrugList.remove(drug.getGenericName());
@@ -31,8 +32,7 @@ public class GenericDrugList {
 		return genericDrugList.get(drug);
 	}
 
-
-	public boolean isEmpty(){
+	public boolean isEmpty() {
 		return genericDrugList.isEmpty();
 	}
 
@@ -45,19 +45,13 @@ public class GenericDrugList {
 
 		return genericDrugList.containsKey(drug);
 	}
-	
-	public ArrayList<String> getGenericNameList(){
+
+	public ArrayList<String> getGenericNameList() {
 		ArrayList<String> nameList = new ArrayList<String>();
-		for(String genericName: genericDrugList.keySet()){
+		for (String genericName : genericDrugList.keySet()) {
 			nameList.add(genericName);
 		}
 		return nameList;
 	}
 
 }
-
-
-
-
-
-
