@@ -46,7 +46,9 @@ public class SplashScreenActivity extends Activity {
 		} 
 		else {
 			initializeApp();
+			finish();
 		}
+		
 
 	}
 
@@ -55,6 +57,7 @@ public class SplashScreenActivity extends Activity {
 		if(requestCode == 1 && resultCode == RESULT_OK)
 		{
 			initializeApp();
+			finish();
 		}
 	}
 
