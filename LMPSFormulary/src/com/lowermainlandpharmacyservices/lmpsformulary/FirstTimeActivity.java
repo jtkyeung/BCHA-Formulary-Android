@@ -30,15 +30,22 @@ public class FirstTimeActivity extends Activity {
 			SharedPreferences.Editor editor = sharedPref.edit();
 			editor.putBoolean(Utilities.authorizedUser, true);
 			editor.commit();
-
-			Intent searchActivity = new Intent(this, MainActivity.class);
-			startActivity(searchActivity);
+			
+			setResult(RESULT_OK);
+			finish();
+			
 		} else {
 			Toast.makeText(this,
-					"This is an incorrect password. Please try again",
+					"Please try again.",
 					Toast.LENGTH_LONG).show();
 			input.setText("");
 			return;
 		}
+	}
+	
+	@Override
+	public void onBackPressed(){
+		finish();
+		System.exit(0);
 	}
 }

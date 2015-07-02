@@ -74,16 +74,17 @@
     
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:gravity="bottom" >
 
 	    <ImageView
 	        android:id="@+id/imageView1"
 	        android:layout_width="match_parent"
 	        android:layout_height="60dp"
+	        android:layout_alignParentBottom="true"
 	        android:layout_marginBottom="30dp"
-	        android:layout_alignParentBottom = "true"
 	        android:contentDescription="@string/image_description_logo"
-	        android:src="@drawable/lmps_logo" />
+	        android:src="@drawable/bcha_logo" />
 	    
     </RelativeLayout>
 
