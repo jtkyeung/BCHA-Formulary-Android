@@ -175,17 +175,17 @@ public class SplashScreenActivity extends Activity {
 						SplashScreenActivity.this, "formularyUpdated.csv");
 				downloadFormulary
 				.execute(
-						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
+						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1").get();
 				final DownloadTask downloadExcluded = new DownloadTask(
 						SplashScreenActivity.this, "excludedUpdated.csv");
 				downloadExcluded
 				.execute(
-						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
+						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1").get();
 				final DownloadTask downloadRestricted = new DownloadTask(
 						SplashScreenActivity.this, "restrictedUpdated.csv");
 				downloadRestricted
 				.execute(
-						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
+						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1").get();
 
 				// We need an Editor object to make preference changes.
 				// All objects are from android.context.Context
