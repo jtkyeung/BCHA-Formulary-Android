@@ -20,7 +20,7 @@ public class DisplayRestrictedResult extends Activity {
 		getActionBar().hide();
 
 		Intent intent = getIntent();
-		String type = intent.getStringExtra(Utilities.EXTRA_BRANDNAME);
+		String type = intent.getStringExtra(Utilities.EXTRA_TYPE);
 		String name = "";
 		ArrayList<String> otherNames;
 		String otherNamesAsString = "";
