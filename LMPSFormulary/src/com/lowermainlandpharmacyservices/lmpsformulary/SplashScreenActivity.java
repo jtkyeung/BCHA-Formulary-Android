@@ -132,7 +132,7 @@ public class SplashScreenActivity extends Activity {
 
 			fileVersion
 			.execute(
-					"https://www.dropbox.com/s/cyng7mv7xaxr2hc/update.txt?dl=1").get();
+					"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAD2BXYQ0oB-i1RLnCYAnA7na/update.txt?dl=1").get();
 
 			fis = openFileInput("fileVersion.txt");
 			reader = new BufferedReader(new InputStreamReader(fis));
@@ -175,20 +175,17 @@ public class SplashScreenActivity extends Activity {
 						SplashScreenActivity.this, "formularyUpdated.csv");
 				downloadFormulary
 				.execute(
-						"https://www.dropbox.com/s/uezse2mqq1mqx1w/formulary.csv?dl=1")
-						.get();
+						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AABotiW6CP_-JrGAh0mw1nkma/formulary.csv?dl=1");
 				final DownloadTask downloadExcluded = new DownloadTask(
 						SplashScreenActivity.this, "excludedUpdated.csv");
 				downloadExcluded
 				.execute(
-						"https://www.dropbox.com/s/y1zt4yhmouc1yko/excluded.csv?dl=1")
-						.get();
+						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AAAh2jkw2watr9KpopeH_JUsa/excluded.csv?dl=1");
 				final DownloadTask downloadRestricted = new DownloadTask(
 						SplashScreenActivity.this, "restrictedUpdated.csv");
 				downloadRestricted
 				.execute(
-						"https://www.dropbox.com/s/khmb7l5yu1ysip1/restricted.csv?dl=1")
-						.get();
+						"https://www.dropbox.com/sh/ctdjnxoemlx9hbr/AACa_xqMx2PZWMoWKe5tJoRda/restricted.csv?dl=1");
 
 				// We need an Editor object to make preference changes.
 				// All objects are from android.context.Context
