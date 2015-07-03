@@ -36,9 +36,9 @@ public class CSVparser {
 
 					// genericList-------------------------------------------------------------------------------
 					if (genericList.containsGenericName(name)) { // if drug
-																	// already
-																	// in the
-																	// list
+						// already
+						// in the
+						// list
 						// add strength
 						((GenericFormularyDrug) genericList
 								.getGenericDrug(name)).addStrength(nextLine[1]);
@@ -49,7 +49,7 @@ public class CSVparser {
 							addBrandNameToExistingFormularyDrug(name, brandname);
 						}
 					} else if (brandname.equals("")) { // if there is a drug
-														// with no brand name
+						// with no brand name
 						genericList.addGenericDrug(new GenericFormularyDrug(
 								name, "", nextLine[1]));
 					} else {
@@ -60,21 +60,21 @@ public class CSVparser {
 				// brandList------------------------------------------------------------------------------
 				if (!(brandname.equals(""))) {
 					if (brandname.contains(",")) { // if there is more than 1
-													// brand name per cell
+						// brand name per cell
 						String[] brandNameList;
 						brandNameList = brandname.split(",");// break up brand
-																// names
+						// names
 						for (String brandName : brandNameList) {
 							addBrandNameFormulary(name, brandName.trim(),
 									nextLine[1]);// add brand names one by one
 						}
 					} else { // there is only 1 brand name
 						addBrandNameFormulary(name, brandname, nextLine[1]);// add
-																			// just
-																			// the
-																			// one
-																			// brand
-																			// name
+						// just
+						// the
+						// one
+						// brand
+						// name
 					}
 				}
 			}
@@ -117,13 +117,13 @@ public class CSVparser {
 							.getGenericDrug(lastGenericDrug))
 							.additionalCriteria(brandname);
 					((BrandExcludedDrug) brandList.getBrandDrug(lastBrandDrug))
-							.additionalCriteria(brandname);
+					.additionalCriteria(brandname);
 				} else if (!(name.equals(""))) {// handles blank lines
 					if (nextLine[1].equals("")) {// no brandname
 						genericList.addGenericDrug(new GenericExcludedDrug(
 								name, "", brandname));
 						lastGenericDrug = name; // sets the last drug if next
-												// line is extra criteria
+						// line is extra criteria
 					} else {
 						if (nextLine[1].contains(",")) {
 							String[] brandNameList;
@@ -139,28 +139,28 @@ public class CSVparser {
 									((BrandExcludedDrug) brandList
 											.getBrandDrug(additionalBrand
 													.trim()))
-											.addGenericName(name);
+													.addGenericName(name);
 								} else {
 									brandList
-											.addBrandDrug(new BrandExcludedDrug(
-													name, additionalBrand
-															.trim(), brandname));
+									.addBrandDrug(new BrandExcludedDrug(
+											name, additionalBrand
+											.trim(), brandname));
 									excludedBrandNameList.add(additionalBrand
 											.trim());
 									genericList
-											.addGenericDrug(new GenericExcludedDrug(
-													name, additionalBrand
-															.trim(), brandname));
+									.addGenericDrug(new GenericExcludedDrug(
+											name, additionalBrand
+											.trim(), brandname));
 									lastGenericDrug = name; // sets the last
-															// drug if next line
-															// is extra criteria
+									// drug if next line
+									// is extra criteria
 								}
 							}
 							lastBrandDrug = brandNameList[0];
 						} else {
 							if (brandList.containsBrandName(nextLine[1])
 									&& brandList.getBrandDrug(nextLine[1])
-											.getStatus().equals("Excluded")) {
+									.getStatus().equals("Excluded")) {
 								((BrandExcludedDrug) brandList
 										.getBrandDrug(nextLine[1]))
 										.addGenericName(name);
@@ -170,11 +170,11 @@ public class CSVparser {
 								excludedBrandNameList.add(nextLine[1]);
 								lastBrandDrug = nextLine[1];
 								genericList
-										.addGenericDrug(new GenericExcludedDrug(
-												name, nextLine[1], brandname));
+								.addGenericDrug(new GenericExcludedDrug(
+										name, nextLine[1], brandname));
 								lastGenericDrug = name; // sets the last drug if
-														// next line is extra
-														// criteria
+								// next line is extra
+								// criteria
 							}
 						}
 					}
@@ -211,79 +211,83 @@ public class CSVparser {
 				String name = nextLine[0].trim().toUpperCase();
 				String restrictedCriteria = nextLine[2].trim().toUpperCase();
 
-				// extraline for restricted criteria
-				if ((name.equals("")) && !(restrictedCriteria.equals(""))) {
-					((GenericRestrictedDrug) genericList
-							.getGenericDrug(lastGenericDrug))
-							.additionalCriteria(restrictedCriteria);
-					((BrandRestrictedDrug) brandList
-							.getBrandDrug(lastBrandDrug))
-							.additionalCriteria(restrictedCriteria);
-				} else if (!(name.equals(""))) {// handles blank lines
-					if (nextLine[1].equals("")) {// no brandname
-						genericList.addGenericDrug(new GenericRestrictedDrug(
-								name, "", restrictedCriteria));
-						lastGenericDrug = name; // sets the last drug if next
-												// line is extra criteria
-					} else {
-						if (nextLine[1].contains(",")) { // multiple brand names
+				if(!genericList.containsGenericName(name)){
+
+					// extra restricted criteria line
+					if ((name.equals("")) && !(restrictedCriteria.equals(""))) {
+
+						((GenericRestrictedDrug) genericList.getGenericDrug(lastGenericDrug)).additionalCriteria(restrictedCriteria);
+						((BrandRestrictedDrug) brandList.getBrandDrug(lastBrandDrug)).additionalCriteria(restrictedCriteria);
+
+					} else if (!(name.equals(""))) {// handles blank lines
+
+						if (nextLine[1].equals("")) {// no brandname
+							genericList.addGenericDrug(new GenericRestrictedDrug(
+									name, "", restrictedCriteria));
+							lastGenericDrug = name; // sets the last drug if next
+							// line is extra criteria
+						} if (nextLine[1].contains(",")) { // multiple brand names
 							String[] brandNameList;
 							brandNameList = nextLine[1].split(",");
-							brandList
-									.addBrandDrug(new BrandRestrictedDrug(name,
-											brandNameList[0],
-											restrictedCriteria));
-							restrictedBrandNameList.add(brandNameList[0]);
+
+							String firstBrandName = brandNameList[0].trim().toUpperCase();
+							brandList.addBrandDrug(new BrandRestrictedDrug(name, firstBrandName,restrictedCriteria));
+							restrictedBrandNameList.add(firstBrandName);
+
 							for (String additionalBrand : brandNameList) {
-								restrictedBrandNameList.add(additionalBrand);
-								// if brand name already exists, add just the
-								// generic name to the list
-								if (restrictedBrandNameList
-										.contains(additionalBrand.trim())) {
-									((BrandRestrictedDrug) brandList
-											.getBrandDrug(additionalBrand
-													.trim()))
-											.addGenericName(name);
-								} else {
-									brandList
-											.addBrandDrug(new BrandRestrictedDrug(
-													name, additionalBrand
-															.trim(),
-													restrictedCriteria));
-									genericList
-											.addGenericDrug(new GenericRestrictedDrug(
-													name, additionalBrand
-															.trim(),
-													restrictedCriteria));
+								String currBrandName = additionalBrand.trim().toUpperCase();
+
+								if (!currBrandName.equals(brandNameList[0])){
+
+
+
+									// if brand name already exists, add just the
+									// generic name to the list
+									System.out.println(currBrandName);
+									if (restrictedBrandNameList.contains(currBrandName)) {
+										((BrandRestrictedDrug) brandList
+												.getBrandDrug(currBrandName))
+												.addGenericName(name);
+
+									} else {
+										brandList
+										.addBrandDrug(new BrandRestrictedDrug(
+												name, currBrandName,
+												restrictedCriteria));
+										genericList
+										.addGenericDrug(new GenericRestrictedDrug(
+												name, currBrandName,
+												restrictedCriteria));
+										restrictedBrandNameList.add(currBrandName);
+									}
 								}
 							}
 							lastGenericDrug = name; // sets the last drug if
-													// next line is extra
-													// criteria
-							lastBrandDrug = brandNameList[0];
+							// next line is extra
+							// criteria
+							lastBrandDrug = firstBrandName;
 						} else { // single brand name
-							if (brandList.containsBrandName(nextLine[1])
-									&& brandList.getBrandDrug(nextLine[1])
-											.getStatus().equals("Restricted")) {
+							String onlyBrandName = nextLine[1].trim().toUpperCase();
+							if (brandList.containsBrandName(onlyBrandName)
+									&& brandList.getBrandDrug(onlyBrandName)
+									.getStatus().equals("Restricted")) {
 								((BrandRestrictedDrug) brandList
-										.getBrandDrug(nextLine[1]))
+										.getBrandDrug(onlyBrandName))
 										.addGenericName(name);
 							} else {
-								brandList.addBrandDrug(new BrandRestrictedDrug(
-										name, nextLine[1], restrictedCriteria));
-								restrictedBrandNameList.add(nextLine[1]);
-								lastBrandDrug = nextLine[1];
-								genericList
-										.addGenericDrug(new GenericRestrictedDrug(
-												name, nextLine[1],
-												restrictedCriteria));
+								System.out.println(name + " " + onlyBrandName);
+								brandList.addBrandDrug(new BrandRestrictedDrug(name, onlyBrandName, restrictedCriteria));
+								restrictedBrandNameList.add(onlyBrandName);
+								lastBrandDrug = onlyBrandName;
+								genericList.addGenericDrug(new GenericRestrictedDrug(name, onlyBrandName, restrictedCriteria));
 								lastGenericDrug = name; // sets the last drug if
-														// next line is extra
-														// criteria
+								// next line is extra
+								// criteria
 							}
 						}
 					}
 				}
+
 			}
 			dataFile.close();
 		} catch (IOException e) {
@@ -299,12 +303,12 @@ public class CSVparser {
 		if (brandList.containsBrandName(brandName)) {
 			// add strength
 			((BrandFormularyDrug) brandList.getBrandDrug(brandName))
-					.addStrength(strength);
+			.addStrength(strength);
 			// add generic name
 			if (!((BrandFormularyDrug) brandList.getBrandDrug(brandName))
 					.containsGenericName(genericName))
 				((BrandFormularyDrug) brandList.getBrandDrug(brandName))
-						.addGenericName(genericName);
+				.addGenericName(genericName);
 		} else {
 			brandList.addBrandDrug(new BrandFormularyDrug(genericName,
 					brandName, strength));
@@ -336,7 +340,7 @@ public class CSVparser {
 			if (!((GenericFormularyDrug) genericList
 					.getGenericDrug(genericName)).containsBrandName(brandName)) {
 				((GenericFormularyDrug) genericList.getGenericDrug(genericName))
-						.addBrandName(brandName);
+				.addBrandName(brandName);
 			}
 		}
 	}
