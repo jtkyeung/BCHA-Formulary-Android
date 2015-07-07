@@ -33,25 +33,41 @@ public class DisplayExcludedResult extends Activity {
 					.getStringArrayListExtra(Utilities.EXTRA_BRANDNAME);
 			System.out.println("gothere");
 
-			for (String s : otherNames) {
-				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
-			}
+//			for (String s : otherNames) {
+//				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+//			}
 
+			if(!otherNames.isEmpty() && !otherNames.get(0).trim().equals("")){
+				for (String s : otherNames) {
+					otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+				}
+			}
+			else {
+				otherNamesAsString += "\t" + "\t" + "\t" + "No alternative names" + "\n";
+			}
 		} else if (type.equals("Brand")) {
 			genericbrandtitle = "Generic Names:";
 			name = intent.getStringExtra(Utilities.EXTRA_BRANDNAME);
 			otherNames = intent
 					.getStringArrayListExtra(Utilities.EXTRA_GENERICNAME);
 
-			for (String s : otherNames) {
-				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
-			}
+//			for (String s : otherNames) {
+//				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+//			}
 
+			if(!otherNames.isEmpty() && !otherNames.get(0).trim().equals("")){
+				for (String s : otherNames) {
+					otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+				}
+			}
+			else {
+				otherNamesAsString += "\t" + "\t" + "\t" + "No alternative names" + "\n";
+			}
 		}
 
 		// Search Name
 		TextView genericNameTextView = (TextView) findViewById(R.id.excluded_drug_genericname);
-		genericNameTextView.setText(name);
+		genericNameTextView.setText("\t" + name);
 		genericNameTextView.setTypeface(null, Typeface.BOLD);
 
 		TextView statusTextView = (TextView) findViewById(R.id.excluded);

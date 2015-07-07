@@ -32,8 +32,17 @@ public class DisplayFormularyResult extends Activity {
 			System.out.println("brand names total = " + otherNames.size());
 			System.out.println("gothere");
 
-			for (String s : otherNames) {
-				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+//			for (String s : otherNames) {
+//				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+//			}
+			
+			if(!otherNames.isEmpty() && !otherNames.get(0).trim().equals("")){
+				for (String s : otherNames) {
+					otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+				}
+			}
+			else {
+				otherNamesAsString += "\t" + "\t" + "\t" + "No alternative names" + "\n";
 			}
 
 		} else if (type.equals("Brand")) {
@@ -42,14 +51,22 @@ public class DisplayFormularyResult extends Activity {
 			otherNames = intent
 					.getStringArrayListExtra(Utilities.EXTRA_GENERICNAME);
 
-			for (String s : otherNames) {
-				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+//			for (String s : otherNames) {
+//				otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+//			}
+			if(!otherNames.isEmpty() && !otherNames.get(0).trim().equals("")){
+				for (String s : otherNames) {
+					otherNamesAsString += "\t" + "\t" + "- " + s + "\n";
+				}
+			}
+			else {
+				otherNamesAsString += "\t" + "\t" + "\t" + "No alternative names" + "\n";
 			}
 
 		}
 		// Search Name
 		TextView genericNameTextView = (TextView) findViewById(R.id.formulary_drug_genericname);
-		genericNameTextView.setText(name);
+		genericNameTextView.setText("\t" + name);
 		genericNameTextView.setTypeface(null, Typeface.BOLD);
 
 		// Other Names
