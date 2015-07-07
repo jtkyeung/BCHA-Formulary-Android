@@ -2,7 +2,6 @@ package com.lowermainlandpharmacyservices.lmpsformulary;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,7 @@ public class FirstTimeActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		getActionBar().hide();
 
-		sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+		sharedPref = this.getSharedPreferences("foo",Context.MODE_PRIVATE);
 	}
 
 	public void authorizeDevice(View view) {

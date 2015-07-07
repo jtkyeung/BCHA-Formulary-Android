@@ -35,6 +35,5 @@
     <string name="greetings_message">Welcome to the BCHA Formulary</string>
     <string name="password_helper">Input keyphrase to continue</string>
     <string name="authorize">Authorize my device</string>
-    <string name="loading">Loading...</string>
 
 </resources>

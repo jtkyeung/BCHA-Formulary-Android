@@ -3,7 +3,7 @@ package com.lowermainlandpharmacyservices.lmpsformulary;
 public final class Utilities {
 
 	// Password SECTION
-	static String password = "123";
+	static String password = "bettercare";
 	static String authorizedUser = "authorization";
 
 	// Keys passing data SECTION

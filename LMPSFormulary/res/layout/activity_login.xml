@@ -4,11 +4,14 @@
     android:layout_height="match_parent"
     android:gravity = "center"
     android:orientation="vertical" >
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
-        android:text="@string/greetings_message"/>
+        android:text="@string/greetings_message"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
 
     <EditText
         android:id="@+id/keyphrase_input"
@@ -19,6 +22,7 @@
         android:gravity="center"
         android:hint="@string/password_helper"
         android:inputType="textPassword"
+        android:layout_marginTop="20dp"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -28,7 +32,9 @@
         android:id="@+id/authorizeButton"
         android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="100dp"
 		android:text="@string/authorize"
 		android:onClick="authorizeDevice" />
-
+  
 </LinearLayout>

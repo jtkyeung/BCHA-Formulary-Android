@@ -16,6 +16,7 @@ import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 public class SplashScreenActivity extends Activity {
@@ -26,6 +27,8 @@ public class SplashScreenActivity extends Activity {
 	CSVparser masterList = null;
 	GenericDrugList genericList;
 	BrandDrugList brandList;
+	
+	int PAUSE_MILLISECONDS = 500;
 
 	public AssetManager assetManager;
 
@@ -38,18 +41,20 @@ public class SplashScreenActivity extends Activity {
 
 		settings = getApplicationContext().getSharedPreferences("foo", 0);
 
-		if(!settings.getBoolean(Utilities.authorizedUser, false)){
-
-			Intent validationActivity = new Intent(this, FirstTimeActivity.class);
-			startActivityForResult(validationActivity, 1);
-
-		} 
-		else {
-			initializeApp();
-			finish();
-		}
-		
-
+		//pause to see the pretty splash screen
+		new Handler().postDelayed(new Runnable(){
+			@Override
+			public void run(){
+				if(!settings.getBoolean(Utilities.authorizedUser, false)){
+					Intent validationActivity = new Intent(SplashScreenActivity.this, FirstTimeActivity.class);
+					startActivityForResult(validationActivity, 1);
+				} 
+				else {
+					initializeApp();
+					finish();
+				}
+			}
+		}, PAUSE_MILLISECONDS);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -112,10 +117,7 @@ public class SplashScreenActivity extends Activity {
 				ex.printStackTrace();
 			}
 		}
-
 		return currVersion;
-
-
 	}
 
 	private String getLatestFileVersion() {
