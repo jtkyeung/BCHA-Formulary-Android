@@ -45,36 +45,21 @@ public class SplashScreenActivity extends Activity {
 		new Handler().postDelayed(new Runnable(){
 			@Override
 			public void run(){
-				if(!settings.getBoolean(Utilities.authorizedUser, false)){
-					Intent validationActivity = new Intent(SplashScreenActivity.this, FirstTimeActivity.class);
-					startActivityForResult(validationActivity, 1);
-				} 
-				else {
 					initializeApp();
 					finish();
-				}
 			}
 		}, PAUSE_MILLISECONDS);
 	}
 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		if(requestCode == 1 && resultCode == RESULT_OK)
-		{
-			initializeApp();
-			finish();
-		}
-	}
-
 	private void initializeApp(){
 		assetManager = getAssets();
-
+		//TODO start progress bar here
 		boolean updateRequired = (this.getCurrentFileVersion().equals(this.getLatestFileVersion())) ? false : true;
 
 		if (updateRequired) {
 			performUpdate();
 		}
-
+		//TODO stop progress bar here
 		System.out.println("Initializing app in splash screen");
 
 		Intent searchActivity = new Intent(this, MainActivity.class);
